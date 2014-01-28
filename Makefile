@@ -1,2 +1,2 @@
 default:
-	g++ -o vroom main.cpp
+	g++ -ggdb -o vroom main.cpp
