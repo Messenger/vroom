@@ -3,8 +3,8 @@
 CC := clang++
 SRCDIR := src
 BUILDDIR := build
-CFLAGS := -g -Wall
-LIBS := -lSDL2
+CFLAGS := -g -Wall -std=c++11
+LIBS := -lSDL2 -lSDL2_image
 TARGET := vroom
 
 SRCEXT := cpp
