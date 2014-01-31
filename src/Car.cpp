@@ -1,10 +1,10 @@
 #include "Car.h"
+#include "Direction.h"
 
 struct Car::Impl {
-    int Direction;
+    class Direction Direction;
 
     Impl() 
-        : Direction(0)
     {
     }
 };
@@ -19,21 +19,27 @@ Car::~Car()
 {
 }
 
-int Car::Direction()
+Direction Car::Direction()
 {
     return pImpl->Direction;
 }
 
-void Car::StartTurningLeft()
-{
-    
-}
-
 void Car::Update(int ms)
 {
-    pImpl->Direction++;
+    pImpl->Direction.Update(ms);
 }
 
-void Car::StopTurningLeft()
+void Car::StartTurningLeft()
 {
+    pImpl->Direction.Update = [&] (int ms) { pImpl->Direction.Value += ms; };
+}
+
+void Car::StartTurningRight()
+{
+    pImpl->Direction.Update = [&] (int ms) { pImpl->Direction.Value -= ms; };
+}
+
+void Car::StopTurning()
+{
+    pImpl->Direction.Update = [] (int ms) { };
 }

@@ -3,6 +3,8 @@
 
 #include <memory>
 
+class Direction;
+
 class Car 
 {
     struct Impl;
@@ -11,10 +13,12 @@ class Car
 public:
     Car();
     ~Car();
-    int Direction();
-    void StartTurningLeft();
+    Direction Direction();
     void Update(int ms);
-    void StopTurningLeft();    
+    void StartTurningLeft();
+    void StartTurningRight();
+    void StopTurning();
+
 };
 
 #endif

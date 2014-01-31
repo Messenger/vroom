@@ -22,6 +22,7 @@ TEST_OBJECTS := $(patsubst $(TEST_DIR)/%,$(BUILD_DIR)/$(TEST_DIR)/%,$(TEST_SOURC
 TEST_DEPS := $(TEST_OBJECTS:.o=.deps)
 
 all: $(TEST_TARGET) $(TARGET)
+	./$(TEST_TARGET)
 
 $(TARGET): $(OBJECTS) $(BUILD_DIR)/main.o
 	@echo " Linking..."; $(CC) $^ -o $(TARGET) $(LIBS)
