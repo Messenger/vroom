@@ -1,12 +1,24 @@
 #include "Car.h"
-#include "Direction.h"
+#include "Angle.h"
+#include "AngularVelocity.h"
+#include "Point.h"
+
+static const AngularVelocity TurningSpeed(1);
 
 struct Car::Impl {
-    class Direction Direction;
-
-    Impl() 
+    Impl()
+        : Direction(90)
+        , Position(320,240)
+        , UpdateDirection([] (const Time&) {})
+        , UpdatePosition([] (const Time&) {})
     {
     }
+    
+    Angle Direction;
+    Point Position;
+
+    std::function<void(const Time&)> UpdateDirection;
+    std::function<void(const Time&)> UpdatePosition;
 };
 
 Car::Car()
@@ -19,27 +31,43 @@ Car::~Car()
 {
 }
 
-Direction Car::Direction()
+Angle Car::Direction()
 {
     return pImpl->Direction;
 }
 
-void Car::Update(int ms)
+Point Car::Position()
 {
-    pImpl->Direction.Update(ms);
+    return pImpl->Position;
+}
+
+void Car::Update(const Time& time)
+{
+    pImpl->UpdateDirection(time);
+    pImpl->UpdatePosition(time);
 }
 
 void Car::StartTurningLeft()
 {
-    pImpl->Direction.Update = [&] (int ms) { pImpl->Direction.Value += ms; };
+    pImpl->UpdateDirection = [&] (const Time& time) { pImpl->Direction += time * TurningSpeed; };
 }
 
 void Car::StartTurningRight()
 {
-    pImpl->Direction.Update = [&] (int ms) { pImpl->Direction.Value -= ms; };
+    pImpl->UpdateDirection = [&] (const Time& time) { pImpl->Direction -= time * TurningSpeed; };
 }
 
 void Car::StopTurning()
 {
-    pImpl->Direction.Update = [] (int ms) { };
+    pImpl->UpdateDirection = [] (const Time& time) { };
+}
+
+void Car::StartAccelerating()
+{
+    pImpl->UpdatePosition = [&] (const Time& time) { pImpl->Position = Point(1,1); };
+}
+
+void Car::StopAccelerating()
+{
+    pImpl->UpdatePosition = [] (const Time& time) { };
 }

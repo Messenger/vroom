@@ -3,7 +3,9 @@
 
 #include <memory>
 
-class Direction;
+class Angle;
+class Time;
+class Point;
 
 class Car 
 {
@@ -13,12 +15,17 @@ class Car
 public:
     Car();
     ~Car();
-    Direction Direction();
-    void Update(int ms);
+    Angle Direction();
+    Point Position();
+    
+    void Update(const Time& time);
+    
     void StartTurningLeft();
     void StartTurningRight();
     void StopTurning();
-
+    
+    void StartAccelerating();
+    void StopAccelerating();
 };
 
 #endif
