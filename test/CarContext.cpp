@@ -3,6 +3,8 @@
 #include "Angle.h"
 #include "Time.h"
 #include "Point.h"
+#include "LinearVelocity.h"
+#include "Length.h"
 
 using namespace igloo;
 
@@ -28,11 +30,22 @@ Context(car)
     
     Spec(should_move_when_accelerated)
     {
-        auto position = car.Position();
+        auto initialPosition = car.Position();
         car.StartAccelerating();
         car.Update(100);
         car.StopAccelerating();
-        Assert::That(car.Position(), Is().Not().EqualTo(position));
+        Assert::That(car.Position(), Is().Not().EqualTo(initialPosition));
+    }
+    
+    Spec(should_move_to_the_left_when_accelerated_and_turning_left)
+    {
+        auto initialPosition = car.Position();
+        car.Direction(0);
+        car.Speed(1);
+        car.StartAccelerating();
+        car.Update(100);
+        car.StopAccelerating();
+        Assert::That(car.Position(), Is().EqualTo(initialPosition + Length(100)));
     }
     
     Car car;

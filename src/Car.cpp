@@ -1,7 +1,9 @@
 #include "Car.h"
 #include "Angle.h"
 #include "AngularVelocity.h"
+#include "LinearVelocity.h"
 #include "Point.h"
+#include "Length.h"
 
 static const AngularVelocity TurningSpeed(1);
 
@@ -9,6 +11,7 @@ struct Car::Impl {
     Impl()
         : Direction(90)
         , Position(320,240)
+        , Speed(1)
         , UpdateDirection([] (const Time&) {})
         , UpdatePosition([] (const Time&) {})
     {
@@ -16,6 +19,7 @@ struct Car::Impl {
     
     Angle Direction;
     Point Position;
+    LinearVelocity Speed;
 
     std::function<void(const Time&)> UpdateDirection;
     std::function<void(const Time&)> UpdatePosition;
@@ -36,9 +40,19 @@ Angle Car::Direction()
     return pImpl->Direction;
 }
 
+void Car::Direction(const Angle& direction)
+{
+    pImpl->Direction = direction;
+}
+
 Point Car::Position()
 {
     return pImpl->Position;
+}
+
+void Car::Speed(const LinearVelocity& speed)
+{
+    pImpl->Speed = speed;
 }
 
 void Car::Update(const Time& time)
@@ -64,7 +78,7 @@ void Car::StopTurning()
 
 void Car::StartAccelerating()
 {
-    pImpl->UpdatePosition = [&] (const Time& time) { pImpl->Position = Point(1,1); };
+    pImpl->UpdatePosition = [&] (const Time& time) { pImpl->Position += time * pImpl->Speed; };
 }
 
 void Car::StopAccelerating()

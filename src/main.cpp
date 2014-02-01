@@ -12,6 +12,7 @@ int main(int argc, char **argv)
     IMG_Init( IMG_INIT_PNG );
     auto spriteSheet = IMG_Load( "content/CarSprite.png" );
     SDL_Rect carPosition = { 320, 240 };
+    SDL_Rect spritePosition = { 0, 0, 40, 40};
     bool running = true;
     while (running) {
         SDL_Event event;
@@ -26,7 +27,7 @@ int main(int argc, char **argv)
         carPosition.y--;
         auto screenSurface = SDL_GetWindowSurface( window );
         SDL_FillRect( screenSurface, NULL, 0 );
-        SDL_BlitSurface(spriteSheet, NULL, screenSurface, &carPosition);
+        SDL_BlitSurface(spriteSheet, &spritePosition, screenSurface, &carPosition);
         SDL_UpdateWindowSurface( window );
         SDL_Delay( 1000 / 60 );
     }

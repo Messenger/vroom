@@ -6,6 +6,7 @@
 class Angle;
 class Time;
 class Point;
+class LinearVelocity;
 
 class Car 
 {
@@ -16,7 +17,9 @@ public:
     Car();
     ~Car();
     Angle Direction();
+    void Direction(const Angle& angle);
     Point Position();
+    void Speed(const LinearVelocity& speed);
     
     void Update(const Time& time);
     
