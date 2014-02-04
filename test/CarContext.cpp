@@ -4,7 +4,6 @@
 #include "Time.h"
 #include "Point.h"
 #include "LinearVelocity.h"
-#include "Length.h"
 
 using namespace igloo;
 
@@ -37,7 +36,7 @@ Context(car)
         Assert::That(car.Position(), Is().Not().EqualTo(initialPosition));
     }
     
-    Spec(should_move_to_the_left_when_accelerated_and_turning_left)
+    Spec(should_move_to_the_east_when_accelerated_and_point_east)
     {
         auto initialPosition = car.Position();
         car.Direction(0);
@@ -45,8 +44,19 @@ Context(car)
         car.StartAccelerating();
         car.Update(100);
         car.StopAccelerating();
-        Assert::That(car.Position(), Is().EqualTo(initialPosition + Length(100)));
+        Assert::That(car.Position(), Is().EqualTo(initialPosition + Point(100, 0)));
     }
     
+    Spec(should_move_to_the_north_when_accelerated_and_pointing_north)
+    {
+        auto initialPosition = car.Position();
+        car.Direction(90);
+        car.Speed(1);
+        car.StartAccelerating();
+        car.Update(100);
+        car.StopAccelerating();
+        Assert::That(car.Position(), Is().EqualTo(initialPosition + Point(0, 100)));
+    }
+
     Car car;
 };

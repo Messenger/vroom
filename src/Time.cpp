@@ -1,7 +1,7 @@
 #include "Time.h"
 #include "Angle.h"
 #include "AngularVelocity.h"
-#include "Length.h"
+#include "Distance.h"
 #include "LinearVelocity.h"
 
 Time::Time(int value)
@@ -19,12 +19,12 @@ Angle operator*(const AngularVelocity& speed, const Time& time)
     return Angle(time.Value * speed.Value);
 }
 
-Length operator*(const Time& time, const LinearVelocity& speed)
+Distance operator*(const Time& time, const LinearVelocity& speed)
 {
-    return Length(time.Value * speed.Value);
+    return Distance(time.Value * speed.Value);
 }
 
-Length operator*(const LinearVelocity& speed, const Time& time)
+Distance operator*(const LinearVelocity& speed, const Time& time)
 {
-    return Length(time.Value * speed.Value);
+    return Distance(time.Value * speed.Value);
 }

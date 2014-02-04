@@ -1,22 +1,18 @@
 #include "Point.h"
-#include "Length.h"
 #include <ostream>
+#include "Vector.h"
+#include "Ratio.h"
 
-Point::Point(int x, int y)
+Point::Point(const Distance& x, const Distance& y)
     : X(x)
     , Y(y)
 {
 }
 
-Point& Point::operator+=(const Length& rhs)
+Point& Point::operator+=(const Vector& vector)
 {
-    X += rhs.Value;
-    return *this;
-}
-
-Point& Point::operator-=(const Length& rhs)
-{
-    X -= rhs.Value;
+    X += vector.Magnitude * vector.Direction.Cos();
+    Y += vector.Magnitude * vector.Direction.Sin();
     return *this;
 }
 
@@ -25,17 +21,13 @@ bool operator==(const Point& lhs, const Point& rhs)
     return lhs.X == rhs.X && lhs.Y == rhs.Y;
 }
 
-Point operator+(const Point& point, const Length& length)
+Point operator+(const Point& lhs, const Point& rhs)
 {
-    return Point(point.X + length.Value, point.Y);
-}
-
-Point operator+(const Length& length, const Point& point)
-{
-    return Point(point.X + length.Value, point.Y);
+    return Point(lhs.X + rhs.X, lhs.Y + rhs.Y);
 }
 
 std::ostream& operator<<(std::ostream& out, const Point& point)
 {
-    return out << "(" << point.X << "," << point.Y << ")";
+    out << "(" << point.X << "," << point.Y << ")";
+    return out;
 }

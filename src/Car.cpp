@@ -3,7 +3,7 @@
 #include "AngularVelocity.h"
 #include "LinearVelocity.h"
 #include "Point.h"
-#include "Length.h"
+#include "Vector.h"
 
 static const AngularVelocity TurningSpeed(1);
 
@@ -78,7 +78,7 @@ void Car::StopTurning()
 
 void Car::StartAccelerating()
 {
-    pImpl->UpdatePosition = [&] (const Time& time) { pImpl->Position += time * pImpl->Speed; };
+    pImpl->UpdatePosition = [&] (const Time& time) { pImpl->Position += Vector(time * pImpl->Speed, pImpl->Direction); };
 }
 
 void Car::StopAccelerating()
