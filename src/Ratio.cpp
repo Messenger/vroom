@@ -1,6 +1,11 @@
 #include "Ratio.h"
 
 Ratio::Ratio(double value)
-    : Value(value)
+    : value(value)
 {
+}
+
+double Ratio::Value() const
+{
+    return value;
 }

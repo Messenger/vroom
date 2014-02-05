@@ -16,9 +16,11 @@ class Car
 public:
     Car();
     ~Car();
-    Angle Direction();
+    Car(Car&& car);
+    
+    Angle Direction() const;
     void Direction(const Angle& angle);
-    Point Position();
+    Point Position() const;
     void Speed(const LinearVelocity& speed);
     
     void Update(const Time& time);

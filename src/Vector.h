@@ -6,13 +6,14 @@
 
 class Vector
 {
-    Distance Magnitude;
-    Angle Direction;
+    Distance magnitude;
+    Angle direction;
 
 public:
     Vector(const Distance& magnitude, const Angle& direction);
     
-    friend class Point;
+    Distance X_Component() const;
+    Distance Y_Component() const;
 };
 
 #endif

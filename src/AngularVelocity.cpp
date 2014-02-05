@@ -1,6 +1,11 @@
 #include "AngularVelocity.h"
 
 AngularVelocity::AngularVelocity(double value)
-    : Value(value)
+    : value(value)
 {
+}
+
+double AngularVelocity::Value() const
+{
+    return value;
 }

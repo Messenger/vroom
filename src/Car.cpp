@@ -4,14 +4,15 @@
 #include "LinearVelocity.h"
 #include "Point.h"
 #include "Vector.h"
+#include "Time.h"
 
-static const AngularVelocity TurningSpeed(1);
+static const AngularVelocity TurningSpeed(0.2);
 
 struct Car::Impl {
     Impl()
         : Direction(90)
         , Position(320,240)
-        , Speed(1)
+        , Speed(0.3)
         , UpdateDirection([] (const Time&) {})
         , UpdatePosition([] (const Time&) {})
     {
@@ -35,7 +36,12 @@ Car::~Car()
 {
 }
 
-Angle Car::Direction()
+Car::Car(Car&& car)
+    : pImpl(std::move(car.pImpl))
+{
+}
+
+Angle Car::Direction() const
 {
     return pImpl->Direction;
 }
@@ -45,7 +51,7 @@ void Car::Direction(const Angle& direction)
     pImpl->Direction = direction;
 }
 
-Point Car::Position()
+Point Car::Position() const
 {
     return pImpl->Position;
 }

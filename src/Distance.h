@@ -7,18 +7,14 @@ class Ratio;
 
 class Distance
 {
-    int Value;
+    int value;
 
 public:
     Distance(int value);
     
-    Distance& operator+=(const Distance& distance);
+    int Value() const;
     
-    friend Distance operator+(const Distance& lhs, const Distance& rhs);
-    friend Distance operator*(const Ratio& ratio, const Distance& distance);
-    friend Distance operator*(const Distance& distance, const Ratio& ratio);
-    friend bool operator==(const Distance& lhs, const Distance& rhs);
-    friend std::ostream& operator<<(std::ostream& out, const Distance& distance);
+    Distance& operator+=(const Distance& distance);
 };
 
 Distance operator+(const Distance& lhs, const Distance& rhs);

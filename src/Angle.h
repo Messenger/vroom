@@ -5,20 +5,18 @@ class Ratio;
 
 class Angle
 {
-    double Value;
+    double value;
     
 public:
     Angle(double value);
 
+    double Value() const;
+    
     Ratio Sin() const;
     Ratio Cos() const;
     
     Angle& operator+=(const Angle& rhs);
     Angle& operator-=(const Angle& rhs);
-    
-    friend bool operator<(const Angle& lhs, const Angle& rhs);
-    friend bool operator>(const Angle& lhs, const Angle& rhs);
-    friend bool operator==(const Angle& lhs, const Angle& rhs);
 };
 
 bool operator<(const Angle& lhs, const Angle& rhs);

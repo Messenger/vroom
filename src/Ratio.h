@@ -5,13 +5,12 @@ class Distance;
 
 class Ratio
 {
-    double Value;
+    double value;
     
 public:
     Ratio(double value);
     
-    friend Distance operator*(const Ratio& ratio, const Distance& distance);
-    friend Distance operator*(const Distance& distance, const Ratio& ratio);
+    double Value() const;
 };
 
 #endif

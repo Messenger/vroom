@@ -6,13 +6,12 @@ class Time;
 
 class LinearVelocity
 {
-    double Value;
+    double value;
 
 public:
     LinearVelocity(double value);
     
-    friend Distance operator*(const Time& time, const LinearVelocity& speed);
-    friend Distance operator*(const LinearVelocity& speed, const Time& time);
+    double Value() const;
 };
 
 #endif
