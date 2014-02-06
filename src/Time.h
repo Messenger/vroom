@@ -16,6 +16,7 @@ public:
     int Value() const;
 };
 
+Time operator-(const Time& lhs, const Time& rhs);
 Angle operator*(const Time& time, const AngularVelocity& speed);
 Angle operator*(const AngularVelocity& speed, const Time& time);
 Distance operator*(const Time& time, const LinearVelocity& speed);

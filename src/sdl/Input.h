@@ -1,5 +1,5 @@
-#ifndef INPUT_H_
-#define INPUT_H_
+#ifndef SDL_INPUT_H_
+#define SDL_INPUT_H_
 
 #include <SDL2/SDL.h>
 #include <memory>

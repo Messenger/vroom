@@ -4,12 +4,13 @@ CC := clang++
 SRC_DIR := src
 TEST_DIR := test
 BUILD_DIR := build
-CFLAGS := -g -Wall -std=c++11
+CFLAGS := -g -Wall -std=c++11 -I$(SRC_DIR)
 LIBS := -lSDL2 -lSDL2_image
 TARGET := vroom
 
 SRC_EXT := cpp
 SOURCES := $(shell find $(SRC_DIR) -type f -name *.$(SRC_EXT) ! -name *\main.cpp)
+SDL_SOURCES := $(shell find $(SRC_DIR) -type f -name sdl\*.$(SRC_EXT))
 OBJECTS := $(patsubst $(SRC_DIR)/%,$(BUILD_DIR)/%,$(SOURCES:.$(SRC_EXT)=.o))
 DEPS := $(OBJECTS:.o=.deps)
 
@@ -28,14 +29,14 @@ $(TARGET): $(OBJECTS) $(BUILD_DIR)/main.o
 	@echo " Linking..."; $(CC) $^ -o $(TARGET) $(LIBS)
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.$(SRC_EXT)
-	@mkdir -p $(BUILD_DIR)
+	@mkdir -p $(@D)
 	@echo " CC $<"; $(CC) $(CFLAGS) -MD -MF $(@:.o=.deps) -c -o $@ $<
 
 clean:
 	@echo " Cleaning..."; $(RM) -r $(BUILD_DIR) $(TARGET) $(TEST_TARGET)
 
-$(TEST_TARGET): $(TEST_OBJECTS) $(OBJECTS) $(BUILD_DIR)/$(TEST_DIR)/main.o
-	@echo " Linking..."; $(CC) $^ -o $(TEST_TARGET) $(TEST_LIBS)
+$(TEST_TARGET): $(TEST_OBJECTS) $(filter-out $(wildcard */sdl/*),$(OBJECTS)) $(BUILD_DIR)/$(TEST_DIR)/main.o
+	@echo " Linking Test..."; $(CC) $^ -o $(TEST_TARGET) $(TEST_LIBS)
 
 $(BUILD_DIR)/$(TEST_DIR)/%.o: $(TEST_DIR)/%.$(SRC_EXT)
 	@mkdir -p $(BUILD_DIR)/$(TEST_DIR)
