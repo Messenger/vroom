@@ -10,9 +10,11 @@ TARGET := vroom
 
 SRC_EXT := cpp
 SOURCES := $(shell find $(SRC_DIR) -type f -name *.$(SRC_EXT) ! -name *\main.cpp)
-SDL_SOURCES := $(shell find $(SRC_DIR) -type f -name sdl\*.$(SRC_EXT))
 OBJECTS := $(patsubst $(SRC_DIR)/%,$(BUILD_DIR)/%,$(SOURCES:.$(SRC_EXT)=.o))
 DEPS := $(OBJECTS:.o=.deps)
+
+SDL_SOURCES := $(shell find $(SRC_DIR) -type f -wholename *\sdl\*)
+SDL_OBJECTS := $(patsubst $(SRC_DIR)/%,$(BUILD_DIR)/%,$(SDL_SOURCES:.$(SRC_EXT)=.o))
 
 TEST_CFLAGS := -g -Wall -std=c++11 -I./ -I$(SRC_DIR)
 TEST_LIBS := 
@@ -35,11 +37,11 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.$(SRC_EXT)
 clean:
 	@echo " Cleaning..."; $(RM) -r $(BUILD_DIR) $(TARGET) $(TEST_TARGET)
 
-$(TEST_TARGET): $(TEST_OBJECTS) $(filter-out $(wildcard */sdl/*),$(OBJECTS)) $(BUILD_DIR)/$(TEST_DIR)/main.o
+$(TEST_TARGET): $(TEST_OBJECTS) $(filter-out $(SDL_OBJECTS),$(OBJECTS)) $(BUILD_DIR)/$(TEST_DIR)/main.o
 	@echo " Linking Test..."; $(CC) $^ -o $(TEST_TARGET) $(TEST_LIBS)
 
 $(BUILD_DIR)/$(TEST_DIR)/%.o: $(TEST_DIR)/%.$(SRC_EXT)
-	@mkdir -p $(BUILD_DIR)/$(TEST_DIR)
+	@mkdir -p $(@D)
 	@echo " CC $<"; $(CC) $(TEST_CFLAGS) -MD -MF $(@:.o=.deps) -c -o $@ $<
 
 -include $(DEPS)
