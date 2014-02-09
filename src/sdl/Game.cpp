@@ -60,14 +60,16 @@ struct Game::Impl
             glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT );
             glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT );
             glEnable( GL_TEXTURE_2D );
-            //glColor3f(0.7, 0.2, 0.4);
             glBegin(GL_QUADS);
                 glTexCoord2d(0.0,0.0); glVertex2d(0.0,0.0);
                 glTexCoord2d(1.0,0.0); glVertex2d(1.0,0.0);
                 glTexCoord2d(1.0,1.0); glVertex2d(1.0,1.0);
                 glTexCoord2d(0.0,1.0); glVertex2d(0.0,1.0);
             glEnd();
-            glRotatef(car.Direction().Value(), 0, 0, 1);
+            glLoadIdentity();
+            glTranslatef((car.Position().X().Value() - 320.)/320., (car.Position().Y().Value() - 240.)/240., 0);
+            glRotatef(car.Direction().Value() + 90, 0, 0, 1);
+            glTranslatef(-40/640., -40/480., 0);
         });
 
         glFlush();

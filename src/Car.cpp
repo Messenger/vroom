@@ -11,7 +11,7 @@ static const AngularVelocity TurningSpeed(0.2);
 struct Car::Impl {
     Impl()
         : Direction(90)
-        , Position(320,240)
+        , Position(0,0)
         , Speed(0.3)
         , UpdateDirection([] (const Time&) {})
         , UpdatePosition([] (const Time&) {})
