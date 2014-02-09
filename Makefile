@@ -5,7 +5,7 @@ SRC_DIR := src
 TEST_DIR := test
 BUILD_DIR := build
 CFLAGS := -g -Wall -std=c++11 -I$(SRC_DIR)
-LIBS := -lSDL2 -lSDL2_image
+LIBS := -lSDL2 -lSDL2_image -lGL
 TARGET := vroom
 
 SRC_EXT := cpp

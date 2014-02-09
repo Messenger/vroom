@@ -1,9 +1,10 @@
 #include "Game.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-//#include <SDL2/SDL_opengl.h>
+#include <SDL2/SDL_opengl.h>
 #include <algorithm>
 #include <list>
+#include <cmath>
 #include "World.h"
 #include "Time.h"
 #include "Car.h"
@@ -16,7 +17,7 @@ struct Game::Impl
 {
     SDL_Window* Window;
     SDL_Surface* SpriteSheet;
-    //SDL_GLContext Context;
+    SDL_GLContext Context;
     Input Input;
     Time LastFrame;
     bool Running;
@@ -25,6 +26,52 @@ struct Game::Impl
     : LastFrame(0)
     , Running(true)
     {
+    }
+    
+    void SDLDraw(World& world)
+    {
+        auto screenSurface = SDL_GetWindowSurface( Window );
+        SDL_FillRect( screenSurface, NULL, 0 );
+        std::for_each(world.Cars().begin(), world.Cars().end(),
+            [&] (const Car& car) { 
+            SDL_Rect carPosition = { car.Position().X().Value(), car.Position().Y().Value() };
+            SDL_Rect spritePosition = { 0, 0, 40, 40};
+            SDL_BlitSurface(SpriteSheet, &spritePosition, screenSurface, &carPosition);
+        });
+        SDL_UpdateWindowSurface( Window );
+    }
+
+    void OpenGLDraw(World& world)
+    {
+        SDL_GL_SetSwapInterval(1);
+        glClearColor ( 0.0, 0.0, 0.0, 1.0 );
+        glClear ( GL_COLOR_BUFFER_BIT );
+        std::for_each(world.Cars().begin(), world.Cars().end(),
+            [&] (const Car& car) { 
+            GLuint texture;
+            glGenTextures(1, &texture);
+            glBindTexture(GL_TEXTURE_2D, texture);
+            glTexImage2D(GL_TEXTURE_2D, 0, SpriteSheet->format->BytesPerPixel, 
+                        SpriteSheet->w, SpriteSheet->h, 0, 
+                        GL_RGBA, GL_UNSIGNED_BYTE, SpriteSheet->pixels);
+
+            glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+            glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+            glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT );
+            glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT );
+            glEnable( GL_TEXTURE_2D );
+            //glColor3f(0.7, 0.2, 0.4);
+            glBegin(GL_QUADS);
+                glTexCoord2d(0.0,0.0); glVertex2d(0.0,0.0);
+                glTexCoord2d(1.0,0.0); glVertex2d(1.0,0.0);
+                glTexCoord2d(1.0,1.0); glVertex2d(1.0,1.0);
+                glTexCoord2d(0.0,1.0); glVertex2d(0.0,1.0);
+            glEnd();
+            glRotatef(car.Direction().Value(), 0, 0, 1);
+        });
+
+        glFlush();
+        SDL_GL_SwapWindow(Window);
     }
 };
 
@@ -38,13 +85,12 @@ Game::Game()
                                    SDL_WINDOW_OPENGL);
     IMG_Init( IMG_INIT_PNG );
     pImpl->SpriteSheet = IMG_Load( "content/CarSprite.png" );
-    
-    //pImpl->Context = SDL_GL_CreateContext(pImpl->Window);
+    pImpl->Context = SDL_GL_CreateContext(pImpl->Window);
 }
 
 Game::~Game()
 {
-    //SDL_GL_DeleteContext(pImpl->Context);
+    SDL_GL_DeleteContext(pImpl->Context);
     SDL_DestroyWindow( pImpl->Window );
     SDL_Quit();
 }
@@ -98,31 +144,7 @@ void Game::UpdateFrame(World& world)
     world.Update(Time(SDL_GetTicks()) - pImpl->LastFrame);
     pImpl->LastFrame = SDL_GetTicks();
 
-    /*
-    SDL_GL_SetSwapInterval(1);
-    glClearColor ( 1.0, 0.0, 0.0, 1.0 );
-    glClear ( GL_COLOR_BUFFER_BIT );
-    */
-    auto screenSurface = SDL_GetWindowSurface( pImpl->Window );
-    SDL_FillRect( screenSurface, NULL, 0 );
-    std::for_each(world.Cars().begin(), world.Cars().end(),
-        [&] (const Car& car) { 
-        SDL_Rect carPosition = { car.Position().X().Value(), car.Position().Y().Value() };
-        SDL_Rect spritePosition = { 0, 0, 40, 40};
-        /*
-        GLuint texture;
-        glGenTextures(1, &texture);
-        glBindTexture(GL_TEXTURE_2D, texture);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 40, 40, 0, GL_RGBA, GL_UNSIGNED_BYTE, pImpl->SpriteSheet->pixels);
-
-        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
-        glRotatef(car.Direction().Value(), 0, 0, 1);
-    */
-        SDL_BlitSurface(pImpl->SpriteSheet, &spritePosition, screenSurface, &carPosition);
-    });
-
-    //SDL_GL_SwapWindow(pImpl->Window);
-    SDL_UpdateWindowSurface( pImpl->Window );
-    SDL_Delay( 1000 / 60 - (SDL_GetTicks() - initialTime) );
+    pImpl->OpenGLDraw(world);
+    auto delay = std::max(1000.0 / 60.0 - (SDL_GetTicks() - initialTime), 0.0);
+    SDL_Delay( delay );
 }
