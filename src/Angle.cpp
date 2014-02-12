@@ -2,6 +2,8 @@
 #define _USE_MATH_DEFINES
 #include <cmath>
 #include "Ratio.h"
+#include "Time.h"
+#include "AngularVelocity.h"
 
 Angle::Angle(double value)
     : value(value)
@@ -48,4 +50,14 @@ bool operator>(const Angle& lhs, const Angle& rhs)
 bool operator==(const Angle& lhs, const Angle& rhs)
 {
     return lhs.Value() == rhs.Value();
+}
+
+Angle operator*(const Time& time, const AngularVelocity& speed)
+{
+    return Angle(time.Value() * speed.Value());
+}
+
+Angle operator*(const AngularVelocity& speed, const Time& time)
+{
+    return Angle(time.Value() * speed.Value());
 }
