@@ -9,12 +9,12 @@ class LinearVelocity;
 
 class Distance
 {
-    int value;
+    double value;
 
 public:
-    Distance(int value);
+    Distance(double value);
     
-    int Value() const;
+    double Value() const;
     
     Distance& operator+=(const Distance& distance);
 };

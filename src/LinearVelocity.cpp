@@ -1,5 +1,6 @@
 #include "LinearVelocity.h"
 #include <ostream>
+#include <cmath>
 #include "Time.h"
 #include "LinearAcceleration.h"
 
@@ -37,7 +38,7 @@ bool operator>(const LinearVelocity& lhs, const LinearVelocity& rhs)
 
 bool operator==(const LinearVelocity& lhs, const LinearVelocity& rhs)
 {
-    return lhs.Value() == rhs.Value();
+    return std::abs(lhs.Value() - rhs.Value()) < 0.0001;
 }
 
 std::ostream& operator<<(std::ostream& out, const LinearVelocity& speed)

@@ -1,15 +1,16 @@
 #include "Distance.h"
 #include <ostream>
+#include <cmath>
 #include "Ratio.h"
 #include "LinearVelocity.h"
 #include "Time.h"
 
-Distance::Distance(int value)
+Distance::Distance(double value)
     : value(value)
 {
 }
 
-int Distance::Value() const
+double Distance::Value() const
 {
     return value;
 }
@@ -47,7 +48,7 @@ Distance operator*(const LinearVelocity& speed, const Time& time)
 
 bool operator==(const Distance& lhs, const Distance& rhs)
 {
-    return lhs.Value() == rhs.Value();
+    return std::abs(lhs.Value() - rhs.Value()) < 0.0001;
 }
 
 std::ostream& operator<<(std::ostream& out, const Distance& distance)

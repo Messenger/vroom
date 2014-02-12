@@ -49,7 +49,7 @@ bool operator>(const Angle& lhs, const Angle& rhs)
 
 bool operator==(const Angle& lhs, const Angle& rhs)
 {
-    return lhs.Value() == rhs.Value();
+    return std::abs(lhs.Value() - rhs.Value()) < 0.0001;
 }
 
 Angle operator*(const Time& time, const AngularVelocity& speed)

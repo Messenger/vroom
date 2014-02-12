@@ -17,6 +17,7 @@ struct Game::Impl
 {
     SDL_Window* Window;
     SDL_Surface* SpriteSheet;
+    GLuint Sprite;
     SDL_GLContext Context;
     Input Input;
     Time LastFrame;
@@ -34,7 +35,7 @@ struct Game::Impl
         SDL_FillRect( screenSurface, NULL, 0 );
         std::for_each(world.Cars().begin(), world.Cars().end(),
             [&] (const Car& car) { 
-            SDL_Rect carPosition = { car.Position().X().Value(), car.Position().Y().Value() };
+            SDL_Rect carPosition = { (int)car.Position().X().Value(), (int)car.Position().Y().Value() };
             SDL_Rect spritePosition = { 0, 0, 40, 40};
             SDL_BlitSurface(SpriteSheet, &spritePosition, screenSurface, &carPosition);
         });
@@ -48,9 +49,7 @@ struct Game::Impl
         glClear ( GL_COLOR_BUFFER_BIT );
         std::for_each(world.Cars().begin(), world.Cars().end(),
             [&] (const Car& car) { 
-            GLuint texture;
-            glGenTextures(1, &texture);
-            glBindTexture(GL_TEXTURE_2D, texture);
+            glBindTexture(GL_TEXTURE_2D, Sprite);
             glTexImage2D(GL_TEXTURE_2D, 0, SpriteSheet->format->BytesPerPixel, 
                         SpriteSheet->w, SpriteSheet->h, 0, 
                         GL_RGBA, GL_UNSIGNED_BYTE, SpriteSheet->pixels);
@@ -87,6 +86,8 @@ Game::Game()
                                    SDL_WINDOW_OPENGL);
     IMG_Init( IMG_INIT_PNG );
     pImpl->SpriteSheet = IMG_Load( "content/CarSprite.png" );
+    glGenTextures(1, &pImpl->Sprite);
+
     pImpl->Context = SDL_GL_CreateContext(pImpl->Window);
 }
 
