@@ -45,30 +45,22 @@ struct Game::Impl
     void OpenGLDraw(World& world)
     {
         SDL_GL_SetSwapInterval(1);
-        glClearColor ( 0.0, 0.0, 0.0, 1.0 );
+        glClearColor ( 0.10, 0.10, 0.10, 1.0 );
         glClear ( GL_COLOR_BUFFER_BIT );
         std::for_each(world.Cars().begin(), world.Cars().end(),
             [&] (const Car& car) { 
-            glBindTexture(GL_TEXTURE_2D, Sprite);
-            glTexImage2D(GL_TEXTURE_2D, 0, SpriteSheet->format->BytesPerPixel, 
-                        SpriteSheet->w, SpriteSheet->h, 0, 
-                        GL_RGBA, GL_UNSIGNED_BYTE, SpriteSheet->pixels);
 
-            glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
-            glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
-            glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT );
-            glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT );
-            glEnable( GL_TEXTURE_2D );
             glBegin(GL_QUADS);
                 glTexCoord2d(0.0,0.0); glVertex2d(0.0,0.0);
                 glTexCoord2d(1.0,0.0); glVertex2d(1.0,0.0);
                 glTexCoord2d(1.0,1.0); glVertex2d(1.0,1.0);
                 glTexCoord2d(0.0,1.0); glVertex2d(0.0,1.0);
             glEnd();
+            
             glLoadIdentity();
             glTranslatef((car.Position().X().Value() - 320.)/320., (car.Position().Y().Value() - 240.)/240., 0);
             glRotatef(car.Direction().Value() + 90, 0, 0, 1);
-            glTranslatef(-40/640., -40/480., 0);
+            glTranslatef(-20/320., -20/240., 0);
         });
 
         glFlush();
@@ -89,6 +81,20 @@ Game::Game()
     glGenTextures(1, &pImpl->Sprite);
 
     pImpl->Context = SDL_GL_CreateContext(pImpl->Window);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    glEnable( GL_TEXTURE_2D );
+    glBindTexture(GL_TEXTURE_2D, pImpl->Sprite);
+    glTexImage2D(GL_TEXTURE_2D, 0, pImpl->SpriteSheet->format->BytesPerPixel, 
+                pImpl->SpriteSheet->w, pImpl->SpriteSheet->h, 0, 
+                GL_RGBA, GL_UNSIGNED_BYTE, pImpl->SpriteSheet->pixels);
+
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT );
+    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT );
+    
 }
 
 Game::~Game()

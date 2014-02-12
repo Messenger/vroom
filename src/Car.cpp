@@ -13,7 +13,7 @@ static const LinearAcceleration DecelerationRate(0.001);
 struct Car::Impl {
     Impl()
         : Direction(90)
-        , Position(0,0)
+        , Position(320,240)
         , Speed(0)
         , MaxSpeed(0.5)
         , Acceleration(0.001)
