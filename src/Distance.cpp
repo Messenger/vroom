@@ -51,6 +51,16 @@ bool operator==(const Distance& lhs, const Distance& rhs)
     return std::abs(lhs.Value() - rhs.Value()) < 0.0001;
 }
 
+bool operator<(const Distance& lhs, const Distance& rhs)
+{
+    return lhs.Value() < rhs.Value();
+}
+
+bool operator>(const Distance& lhs, const Distance& rhs)
+{
+    return lhs.Value() > rhs.Value();
+}
+
 std::ostream& operator<<(std::ostream& out, const Distance& distance)
 {
     out << distance.Value();

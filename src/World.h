@@ -6,6 +6,7 @@
 
 class Car;
 class Time;
+class Wall;
 
 class World
 {
@@ -17,6 +18,7 @@ public:
     ~World();
     
     std::list<Car>& Cars() const;
+    std::list<Wall>& Walls() const;
     void Update(const Time& time);
 };
 

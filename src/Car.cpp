@@ -62,9 +62,9 @@ Point Car::Position() const
     return pImpl->Position;
 }
 
-void Car::Speed(const LinearVelocity& speed)
+void Car::Position(const Point& position)
 {
-    pImpl->Speed = speed;
+    pImpl->Position = position;
 }
 
 LinearVelocity Car::Speed() const
@@ -72,9 +72,9 @@ LinearVelocity Car::Speed() const
     return pImpl->Speed;
 }
 
-void Car::MaxSpeed(const LinearVelocity& speed)
+void Car::Speed(const LinearVelocity& speed)
 {
-    pImpl->MaxSpeed = speed;
+    pImpl->Speed = speed;
 }
 
 LinearVelocity Car::MaxSpeed() const
@@ -82,6 +82,10 @@ LinearVelocity Car::MaxSpeed() const
     return pImpl->MaxSpeed;
 }
 
+void Car::MaxSpeed(const LinearVelocity& speed)
+{
+    pImpl->MaxSpeed = speed;
+}
 
 void Car::Update(const Time& time)
 {

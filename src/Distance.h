@@ -25,6 +25,8 @@ Distance operator*(const Distance& distance, const Ratio& ratio);
 Distance operator*(const Time& time, const LinearVelocity& speed);
 Distance operator*(const LinearVelocity& speed, const Time& time);
 bool operator==(const Distance& lhs, const Distance& rhs);
+bool operator<(const Distance& lhs, const Distance& rhs);
+bool operator>(const Distance& lhs, const Distance& rhs);
 std::ostream& operator<<(std::ostream& out, const Distance& distance);
 
 #endif

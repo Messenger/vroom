@@ -21,10 +21,11 @@ public:
     Angle Direction() const;
     void Direction(const Angle& angle);
     Point Position() const;
-    void Speed(const LinearVelocity& speed);
+    void Position(const Point& point);
     LinearVelocity Speed() const;
-    void MaxSpeed(const LinearVelocity& speed);
+    void Speed(const LinearVelocity& speed);
     LinearVelocity MaxSpeed() const;
+    void MaxSpeed(const LinearVelocity& speed);
     
     void Update(const Time& time);
     
