@@ -1,4 +1,5 @@
 #include "Car.h"
+#include <cmath>
 #include "Angle.h"
 #include "AngularVelocity.h"
 #include "LinearVelocity.h"
@@ -125,3 +126,21 @@ void Car::StopAccelerating()
         pImpl->Speed = std::max(pImpl->Speed, LinearVelocity(0));
     };
 }
+
+static double CalculateDistance(const Point& start, const Point& end)
+{
+    return std::sqrt(std::pow((end.X() - start.X()).Value(), 2) + std::pow((end.Y() - start.Y()).Value(), 2));
+}
+
+void Car::Collide(const Point& initial, const Point& collision, const Time& time)
+{
+    auto collisionToCurrent = CalculateDistance(collision, pImpl->Position);
+    auto initialToCurrent = CalculateDistance(initial, pImpl->Position);
+    
+    auto remainingTime = time.Value() * collisionToCurrent / initialToCurrent;
+    
+    pImpl->Position = collision;
+    pImpl->Speed = -pImpl->Speed;
+    pImpl->UpdatePosition(remainingTime);
+}
+

@@ -37,6 +37,11 @@ bool operator==(const Point& lhs, const Point& rhs)
     return lhs.X() == rhs.X() && lhs.Y() == rhs.Y();
 }
 
+bool operator!=(const Point& lhs, const Point& rhs)
+{
+    return lhs.X() != rhs.X() || lhs.Y() != rhs.Y();
+}
+
 Point operator+(const Point& lhs, const Point& rhs)
 {
     return Point(lhs.X() + rhs.X(), lhs.Y() + rhs.Y());
