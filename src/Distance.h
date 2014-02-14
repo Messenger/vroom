@@ -17,9 +17,12 @@ public:
     double Value() const;
     
     Distance& operator+=(const Distance& distance);
+    Distance& operator-();
 };
 
 Distance operator+(const Distance& lhs, const Distance& rhs);
+Distance operator-(const Distance& lhs, const Distance& rhs);
+Distance operator*(const Distance& lhs, const Distance& rhs);
 Distance operator*(const Ratio& ratio, const Distance& distance);
 Distance operator*(const Distance& distance, const Ratio& ratio);
 Distance operator*(const Time& time, const LinearVelocity& speed);

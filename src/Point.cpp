@@ -25,6 +25,13 @@ Point& Point::operator+=(const Vector& vector)
     return *this;
 }
 
+Point& Point::operator-()
+{
+    x = -x;
+    y = -y;
+    return *this;
+}
+
 bool operator==(const Point& lhs, const Point& rhs)
 {
     return lhs.X() == rhs.X() && lhs.Y() == rhs.Y();
@@ -33,6 +40,21 @@ bool operator==(const Point& lhs, const Point& rhs)
 Point operator+(const Point& lhs, const Point& rhs)
 {
     return Point(lhs.X() + rhs.X(), lhs.Y() + rhs.Y());
+}
+
+Point operator-(const Point& lhs, const Point& rhs)
+{
+    return Point(lhs.X() - rhs.X(), lhs.Y() - rhs.Y());
+}
+
+Point operator*(const Point& point, double scalar)
+{
+    return Point(point.X() * scalar, point.Y() * scalar);
+}
+
+Point operator*(double scalar, const Point& point)
+{
+    return Point(point.X() * scalar, point.Y() * scalar);
 }
 
 std::ostream& operator<<(std::ostream& out, const Point& point)

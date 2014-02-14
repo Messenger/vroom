@@ -17,10 +17,14 @@ public:
     Distance Y() const;
 
     Point& operator+=(const Vector& vector);
+    Point& operator-();
 };
 
 bool operator==(const Point& lhs, const Point& rhs);
 Point operator+(const Point& lhs, const Point& rhs);
+Point operator-(const Point& lhs, const Point& rhs);
+Point operator*(const Point& lhs, double rhs);
+Point operator*(double lhs, const Point& rhs);
 std::ostream& operator<<(std::ostream& out, const Point& point);
 
 #endif

@@ -27,23 +27,31 @@ Wall::Wall(Wall&& wall)
 {
 }
 
+static double CalculateDeterminant(const Point& first, const Point& second)
+{
+    return ((first.X() * second.Y()) - (first.Y() * second.X())).Value();
+}
+
 bool Wall::Intersects(const Point& start, const Point& end, Point& collision) const
 {
-    auto s1_x = end.X().Value() - start.X().Value();
-    auto s1_y = end.Y().Value() - start.Y().Value();
-    auto s2_x = pImpl->End.X().Value() - pImpl->Start.X().Value();
-    auto s2_y = pImpl->End.Y().Value() - pImpl->Start.Y().Value();
+    auto startDifference = start - pImpl->Start;
+    auto lineDistance = end - start;
+    auto wallDistance = pImpl->End - pImpl->Start;
+    
+    auto lineIntersectionDeterminate = CalculateDeterminant(wallDistance, startDifference);
+    auto wallIntersectionDeterminate = CalculateDeterminant(lineDistance, startDifference);
+    auto divisorDeterminate = CalculateDeterminant(lineDistance, wallDistance);
+    auto lineIntersectionProportion = lineIntersectionDeterminate / divisorDeterminate;
+    auto wallIntersectionProportion = wallIntersectionDeterminate / divisorDeterminate;
 
-    auto s = (-s1_y * (start.X().Value() - pImpl->Start.X().Value()) + s1_x * (start.Y().Value() - pImpl->Start.Y().Value())) / (-s2_x * s1_y + s1_x * s2_y);
-    auto t = ( s2_x * (start.Y().Value() - pImpl->Start.Y().Value()) - s2_y * (start.X().Value() - pImpl->Start.X().Value())) / (-s2_x * s1_y + s1_x * s2_y);
-
-    if (s >= 0 && s <= 1 && t >= 0 && t <= 1)
+    // Collision detected within the line segments
+    if(lineIntersectionProportion >= 0 && lineIntersectionProportion <= 1 
+    && wallIntersectionProportion >= 0 && wallIntersectionProportion <= 1)
     {
-        // Collision detected
-        collision = Point(start.X().Value() + (t * s1_x),
-                          start.Y().Value() + (t * s1_y));
+        collision = start + lineIntersectionProportion * lineDistance;
         return true;
     }
 
-    return false; // No collision
+    // No collision
+    return false; 
 }

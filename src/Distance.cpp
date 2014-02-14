@@ -21,9 +21,25 @@ Distance& Distance::operator+=(const Distance& distance)
     return *this;
 }
 
+Distance& Distance::operator-()
+{
+    value = -value;
+    return *this;
+}
+
 Distance operator+(const Distance& lhs, const Distance& rhs)
 {
     return Distance(lhs.Value() + rhs.Value());
+}
+
+Distance operator-(const Distance& lhs, const Distance& rhs)
+{
+    return Distance(lhs.Value() - rhs.Value());
+}
+
+Distance operator*(const Distance& lhs, const Distance& rhs)
+{
+    return Distance(lhs.Value() * rhs.Value());
 }
 
 Distance operator*(const Ratio& ratio, const Distance& distance)
