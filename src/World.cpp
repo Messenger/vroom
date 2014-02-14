@@ -43,6 +43,7 @@ void World::Update(const Time& time)
                     if(wall.Intersects(initialPosition, finalPosition, collision))
                     {
                         car.Position(collision);
+                        finalPosition = collision;
                     }
                 });
         });
