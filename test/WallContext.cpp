@@ -60,6 +60,20 @@ Context(wall)
         world.Update(1000);
         Assert::That(car.Position().Y(), Is().LessThan(26));
     }
+
+    Spec(car_should_not_go_through_a_wall_if_it_lands_on_top_of_it)
+    {
+        CreateWall(Point(-50,1), Point(50,1));
+
+        auto& car = CreateReallyFastCar();
+        car.MaxSpeed(0.5);
+        car.StartAccelerating();
+        for(int i = 0; i < 79; ++i)
+        {
+            world.Update(13);
+        }
+        Assert::That(car.Position().Y(), Is().LessThan(2));
+    }
     
     World world;
 };
