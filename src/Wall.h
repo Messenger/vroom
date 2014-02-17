@@ -4,6 +4,8 @@
 #include <memory>
 
 class Point;
+class Distance;
+class Angle;
 
 class Wall
 {
@@ -15,6 +17,9 @@ public:
     ~Wall();
     Wall(Wall&& wall);
     
+    Point Start() const;
+    Angle Direction() const;
+    Distance Distance() const;
     bool Intersects(const Point& start, const Point& end, Point& collision) const;
 };
 

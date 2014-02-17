@@ -11,6 +11,7 @@ class Angle
     
 public:
     Angle(double value);
+    static Angle Radians(double value);
 
     double Value() const;
     

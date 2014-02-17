@@ -1,5 +1,8 @@
 #include "Wall.h"
+#include <cmath>
 #include "Point.h"
+#include "Distance.h"
+#include "Angle.h"
 
 struct Wall::Impl
 {
@@ -25,6 +28,23 @@ Wall::~Wall()
 Wall::Wall(Wall&& wall)
     : pImpl(std::move(wall.pImpl))
 {
+}
+
+Point Wall::Start() const
+{
+    return pImpl->Start;
+}
+
+Angle Wall::Direction() const
+{
+    auto distance = pImpl->End - pImpl->Start;
+    return Angle::Radians(std::atan2(distance.Y().Value(), distance.X().Value()));
+}
+
+Distance Wall::Distance() const
+{
+    return std::sqrt(std::pow((pImpl->End.X() - pImpl->Start.X()).Value(), 2) 
+                   + std::pow((pImpl->End.Y() - pImpl->Start.Y()).Value(), 2));
 }
 
 static double CalculateDeterminant(const Point& first, const Point& second)

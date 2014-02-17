@@ -10,6 +10,11 @@ Angle::Angle(double value)
 {
 }
 
+Angle Angle::Radians(double value)
+{
+    return Angle(value * 180.0 / M_PI);
+}
+
 double Angle::Value() const
 {
     return value;

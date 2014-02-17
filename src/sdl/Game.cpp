@@ -12,6 +12,7 @@
 #include "Angle.h"
 #include "Distance.h"
 #include "Input.h"
+#include "Wall.h"
 
 struct Game::Impl
 {
@@ -45,22 +46,37 @@ struct Game::Impl
     void OpenGLDraw(World& world)
     {
         SDL_GL_SetSwapInterval(1);
-        glClearColor ( 0.10, 0.10, 0.10, 1.0 );
+        glClearColor ( 0.1, 0.1, 0.1, 1.0 );
         glClear ( GL_COLOR_BUFFER_BIT );
         std::for_each(world.Cars().begin(), world.Cars().end(),
             [&] (const Car& car) { 
 
-            glBegin(GL_QUADS);
-                glTexCoord2d(0.0,0.0); glVertex2d(0.0,0.0);
-                glTexCoord2d(1.0,0.0); glVertex2d(1.0,0.0);
-                glTexCoord2d(1.0,1.0); glVertex2d(1.0,1.0);
-                glTexCoord2d(0.0,1.0); glVertex2d(0.0,1.0);
-            glEnd();
-            
             glLoadIdentity();
+            
             glTranslatef((car.Position().X().Value() - 320.)/320., (car.Position().Y().Value() - 240.)/240., 0);
             glRotatef(car.Direction().Value() + 90, 0, 0, 1);
             glTranslatef(-20/320., -20/240., 0);
+            glBegin(GL_QUADS);
+                glTexCoord2d(0.0,0.0); glVertex2d(0.0,0.0);
+                glTexCoord2d(40/320.,0.0); glVertex2d(40/320.,0.0);
+                glTexCoord2d(40/320.,40/200.); glVertex2d(40/320.,40/240.);
+                glTexCoord2d(0.0,40/200.); glVertex2d(0.0,40/240.);
+            glEnd();
+        });
+
+        std::for_each(world.Walls().begin(), world.Walls().end(),
+            [&] (const Wall& wall) { 
+
+            glLoadIdentity();
+            glTranslatef((wall.Start().X().Value() - 320.)/320., (wall.Start().Y().Value() - 240.)/240., 0);
+            glRotatef(wall.Direction().Value(), 0, 0, 1);
+            glTranslatef(0, -5/240., 0);
+            glBegin(GL_QUADS);
+                glTexCoord2d(0.0,40/200.); glVertex2d(0.0,0.0);
+                glTexCoord2d(40/320.,40/200.); glVertex2d(wall.Distance().Value()/320.,0.0);
+                glTexCoord2d(40/320.,50/200.); glVertex2d(wall.Distance().Value()/320.,10/240.);
+                glTexCoord2d(0.0,50/200.); glVertex2d(0.0,10/240.);
+            glEnd();
         });
 
         glFlush();
