@@ -45,6 +45,10 @@ struct Game::Impl
 
     void OpenGLDraw(World& world)
     {
+        glMatrixMode(GL_PROJECTION);
+        glLoadIdentity();
+        glOrtho(0.0f, 640.0f, 0.0f, 480.0f, 0.0f, 1.0f);
+        glMatrixMode(GL_MODELVIEW);
         SDL_GL_SetSwapInterval(1);
         glClearColor ( 0.1, 0.1, 0.1, 1.0 );
         glClear ( GL_COLOR_BUFFER_BIT );
@@ -53,14 +57,14 @@ struct Game::Impl
 
             glLoadIdentity();
             
-            glTranslatef((car.Position().X().Value() - 320.)/320., (car.Position().Y().Value() - 240.)/240., 0);
+            glTranslatef(car.Position().X().Value(), car.Position().Y().Value(), 0);
             glRotatef(car.Direction().Value() + 90, 0, 0, 1);
-            glTranslatef(-20/320., -20/240., 0);
+            glTranslatef(-20, -20, 0);
             glBegin(GL_QUADS);
                 glTexCoord2d(0.0,0.0); glVertex2d(0.0,0.0);
-                glTexCoord2d(40/320.,0.0); glVertex2d(40/320.,0.0);
-                glTexCoord2d(40/320.,40/200.); glVertex2d(40/320.,40/240.);
-                glTexCoord2d(0.0,40/200.); glVertex2d(0.0,40/240.);
+                glTexCoord2d(40/320.,0.0); glVertex2d(40,0.0);
+                glTexCoord2d(40/320.,40/200.); glVertex2d(40,40);
+                glTexCoord2d(0.0,40/200.); glVertex2d(0.0,40);
             glEnd();
         });
 
@@ -68,14 +72,14 @@ struct Game::Impl
             [&] (const Wall& wall) { 
 
             glLoadIdentity();
-            glTranslatef((wall.Start().X().Value() - 320.)/320., (wall.Start().Y().Value() - 240.)/240., 0);
+            glTranslatef(wall.Start().X().Value(), wall.Start().Y().Value(), 0);
             glRotatef(wall.Direction().Value(), 0, 0, 1);
-            glTranslatef(0, -5/240., 0);
+            glTranslatef(0, -5, 0);
             glBegin(GL_QUADS);
                 glTexCoord2d(0.0,40/200.); glVertex2d(0.0,0.0);
-                glTexCoord2d(40/320.,40/200.); glVertex2d(wall.Distance().Value()/320.,0.0);
-                glTexCoord2d(40/320.,50/200.); glVertex2d(wall.Distance().Value()/320.,10/240.);
-                glTexCoord2d(0.0,50/200.); glVertex2d(0.0,10/240.);
+                glTexCoord2d(40/320.,40/200.); glVertex2d(wall.Length().Value(),0.0);
+                glTexCoord2d(40/320.,50/200.); glVertex2d(wall.Length().Value(),10);
+                glTexCoord2d(0.0,50/200.); glVertex2d(0.0,10);
             glEnd();
         });
 
@@ -110,7 +114,6 @@ Game::Game()
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
     glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT );
     glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT );
-    
 }
 
 Game::~Game()

@@ -127,17 +127,12 @@ void Car::StopAccelerating()
     };
 }
 
-static double CalculateDistance(const Point& start, const Point& end)
-{
-    return std::sqrt(std::pow((end.X() - start.X()).Value(), 2) + std::pow((end.Y() - start.Y()).Value(), 2));
-}
-
 void Car::Collide(const Point& initial, const Point& collision, const Time& time)
 {
-    auto collisionToCurrent = CalculateDistance(collision, pImpl->Position);
-    auto initialToCurrent = CalculateDistance(initial, pImpl->Position);
+    auto collisionToCurrent = Distance(collision, pImpl->Position);
+    auto initialToCurrent = Distance(initial, pImpl->Position);
     
-    auto remainingTime = time.Value() * collisionToCurrent / initialToCurrent;
+    auto remainingTime = time.Value() * collisionToCurrent.Value() / initialToCurrent.Value();
     
     pImpl->Position = collision;
     //HACK: prevents some issues with point to point collision detection but fails pretty spectacularly 

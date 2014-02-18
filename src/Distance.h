@@ -6,6 +6,7 @@
 class Ratio;
 class Time;
 class LinearVelocity;
+class Point;
 
 class Distance
 {
@@ -13,6 +14,7 @@ class Distance
 
 public:
     Distance(double value);
+    Distance(const Point& start, const Point& end);
     
     double Value() const;
     

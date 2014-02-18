@@ -4,10 +4,18 @@
 #include "Ratio.h"
 #include "LinearVelocity.h"
 #include "Time.h"
+#include "Point.h"
 
 Distance::Distance(double value)
     : value(value)
 {
+}
+
+Distance::Distance(const Point& start, const Point& end)
+    : value(std::sqrt(std::pow((end.X() - start.X()).Value(), 2) 
+                    + std::pow((end.Y() - start.Y()).Value(), 2)))
+{
+
 }
 
 double Distance::Value() const

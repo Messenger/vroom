@@ -19,7 +19,7 @@ public:
     
     Point Start() const;
     Angle Direction() const;
-    Distance Distance() const;
+    Distance Length() const;
     bool Intersects(const Point& start, const Point& end, Point& collision) const;
 };
 

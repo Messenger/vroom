@@ -41,10 +41,9 @@ Angle Wall::Direction() const
     return Angle::Radians(std::atan2(distance.Y().Value(), distance.X().Value()));
 }
 
-Distance Wall::Distance() const
+Distance Wall::Length() const
 {
-    return std::sqrt(std::pow((pImpl->End.X() - pImpl->Start.X()).Value(), 2) 
-                   + std::pow((pImpl->End.Y() - pImpl->Start.Y()).Value(), 2));
+    return Distance(pImpl->Start, pImpl->End);
 }
 
 static double CalculateDeterminant(const Point& first, const Point& second)
