@@ -12,9 +12,9 @@ int main(int argc, char **argv)
     player1.Position(Point(20, 20));
     world.Cars().push_back(std::move(player1));
     world.Walls().push_back(std::move(Wall(Point(160,120), Point(480,120))));
-    world.Walls().push_back(std::move(Wall(Point(480,120), Point(480,320))));
-    world.Walls().push_back(std::move(Wall(Point(160,120), Point(160,320))));
-    world.Walls().push_back(std::move(Wall(Point(160,320), Point(480,320))));
+    world.Walls().push_back(std::move(Wall(Point(480,120), Point(480,360))));
+    world.Walls().push_back(std::move(Wall(Point(160,120), Point(160,360))));
+    world.Walls().push_back(std::move(Wall(Point(160,360), Point(480,360))));
     world.Walls().push_back(std::move(Wall(Point(0,0), Point(0,480))));
     world.Walls().push_back(std::move(Wall(Point(0,480), Point(640,480))));
     world.Walls().push_back(std::move(Wall(Point(640,480), Point(640,0))));
