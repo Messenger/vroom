@@ -2,9 +2,6 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_opengl.h>
-#include <algorithm>
-#include <list>
-#include <cmath>
 #include "World.h"
 #include "Time.h"
 #include "Car.h"
@@ -34,27 +31,23 @@ struct Game::Impl
     {
         auto screenSurface = SDL_GetWindowSurface( Window );
         SDL_FillRect( screenSurface, NULL, 0 );
-        std::for_each(world.Cars().begin(), world.Cars().end(),
-            [&] (const Car& car) { 
+        for(const auto& car : world.Cars())
+        {
             SDL_Rect carPosition = { (int)car.Position().X().Value(), (int)car.Position().Y().Value() };
             SDL_Rect spritePosition = { 0, 0, 40, 40};
             SDL_BlitSurface(SpriteSheet, &spritePosition, screenSurface, &carPosition);
-        });
+        }
         SDL_UpdateWindowSurface( Window );
     }
 
     void OpenGLDraw(World& world)
     {
-        glMatrixMode(GL_PROJECTION);
-        glLoadIdentity();
-        glOrtho(0.0f, 640.0f, 0.0f, 480.0f, 0.0f, 1.0f);
-        glMatrixMode(GL_MODELVIEW);
         SDL_GL_SetSwapInterval(1);
         glClearColor ( 0.1, 0.1, 0.1, 1.0 );
         glClear ( GL_COLOR_BUFFER_BIT );
-        std::for_each(world.Cars().begin(), world.Cars().end(),
-            [&] (const Car& car) { 
-
+        
+        for(const auto& car : world.Cars())
+        {
             glLoadIdentity();
             
             glTranslatef(car.Position().X().Value(), car.Position().Y().Value(), 0);
@@ -66,11 +59,10 @@ struct Game::Impl
                 glTexCoord2d(40/320.,40/200.); glVertex2d(40,40);
                 glTexCoord2d(0.0,40/200.); glVertex2d(0.0,40);
             glEnd();
-        });
+        }
 
-        std::for_each(world.Walls().begin(), world.Walls().end(),
-            [&] (const Wall& wall) { 
-
+        for(const auto& wall : world.Walls())
+        {
             glLoadIdentity();
             glTranslatef(wall.Start().X().Value(), wall.Start().Y().Value(), 0);
             glRotatef(wall.Direction().Value(), 0, 0, 1);
@@ -81,7 +73,7 @@ struct Game::Impl
                 glTexCoord2d(40/320.,50/200.); glVertex2d(wall.Length().Value(),10);
                 glTexCoord2d(0.0,50/200.); glVertex2d(0.0,10);
             glEnd();
-        });
+        }
 
         glFlush();
         SDL_GL_SwapWindow(Window);
@@ -114,6 +106,12 @@ Game::Game()
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
     glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT );
     glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT );
+    
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glOrtho(0.0f, 640.0f, 0.0f, 480.0f, 0.0f, 1.0f);
+    glMatrixMode(GL_MODELVIEW);
+
 }
 
 Game::~Game()
