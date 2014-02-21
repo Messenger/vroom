@@ -16,7 +16,7 @@ Context(wall)
     {
         world.Cars().push_back(std::move(Car()));
         auto& car = world.Cars().back();
-        car.Position(Point(0,0));
+        car.Position({0,0});
         car.Direction(90);
         car.MaxSpeed(100);
         car.Speed(100);
@@ -32,7 +32,7 @@ Context(wall)
     
     Spec(wall_should_prevent_car_from_travelling_through)
     {
-        CreateWall(Point(-50,50), Point(50,50));
+        CreateWall({-50,50}, {50,50});
 
         auto& car = CreateReallyFastCar();
         car.StartAccelerating();
@@ -42,7 +42,7 @@ Context(wall)
 
     Spec(wall_should_not_prevent_car_from_travelling_through_when_it_does_not_intersect)
     {
-        CreateWall(Point(-100,50), Point(-1,50));
+        CreateWall({-100,50}, {-1,50});
 
         auto& car = CreateReallyFastCar();
         car.StartAccelerating();
@@ -52,8 +52,8 @@ Context(wall)
     
     Spec(car_should_collide_with_nearest_wall)
     {
-        CreateWall(Point(-50,25), Point(50,25));
-        CreateWall(Point(-50,50), Point(50,50));
+        CreateWall({-50,25}, {50,25});
+        CreateWall({-50,50}, {50,50});
 
         auto& car = CreateReallyFastCar();
         car.StartAccelerating();
@@ -63,7 +63,7 @@ Context(wall)
 
     Spec(car_should_not_go_through_a_wall_if_it_lands_on_top_of_it)
     {
-        CreateWall(Point(-50,1), Point(50,1));
+        CreateWall({-50,1}, {50,1});
 
         auto& car = CreateReallyFastCar();
         car.MaxSpeed(0.5);

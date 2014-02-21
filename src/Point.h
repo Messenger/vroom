@@ -17,6 +17,7 @@ public:
     Distance Y() const;
 
     Point& operator+=(const Vector& vector);
+    Point& operator+=(const Point& point);
     Point& operator-();
 };
 

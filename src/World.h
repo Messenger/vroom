@@ -7,6 +7,8 @@
 class Car;
 class Time;
 class Wall;
+class Point;
+class Distance;
 
 class World
 {
@@ -16,7 +18,10 @@ class World
 public:
     World();
     ~World();
-    
+
+    Distance Height() const;
+    Distance Width() const;
+    Point ViewOffset() const;
     std::list<Car>& Cars() const;
     std::list<Wall>& Walls() const;
     void Update(const Time& time);

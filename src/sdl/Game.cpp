@@ -42,6 +42,14 @@ struct Game::Impl
 
     void OpenGLDraw(World& world)
     {
+        glMatrixMode(GL_PROJECTION);
+        glLoadIdentity();
+        glOrtho(world.ViewOffset().X().Value(), 
+                world.ViewOffset().X().Value() + world.Width().Value(), 
+                world.ViewOffset().Y().Value(), 
+                world.ViewOffset().Y().Value() + world.Height().Value(), 0.0f, 1.0f);
+        glMatrixMode(GL_MODELVIEW);
+
         SDL_GL_SetSwapInterval(1);
         glClearColor ( 0.1, 0.1, 0.1, 1.0 );
         glClear ( GL_COLOR_BUFFER_BIT );
@@ -106,12 +114,6 @@ Game::Game()
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
     glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT );
     glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT );
-    
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    glOrtho(0.0f, 640.0f, 0.0f, 480.0f, 0.0f, 1.0f);
-    glMatrixMode(GL_MODELVIEW);
-
 }
 
 Game::~Game()

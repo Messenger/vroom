@@ -46,7 +46,7 @@ Context(car)
         car.StartAccelerating();
         car.Update(100);
         car.StopAccelerating();
-        Assert::That(car.Position(), Is().EqualTo(initialPosition + Point(100, 0)));
+        Assert::That(car.Position(), Is().EqualTo(initialPosition + Point{100, 0}));
     }
     
     Spec(should_move_to_the_north_when_accelerated_and_pointing_north)
@@ -58,7 +58,7 @@ Context(car)
         car.StartAccelerating();
         car.Update(100);
         car.StopAccelerating();
-        Assert::That(car.Position(), Is().EqualTo(initialPosition + Point(0, 100)));
+        Assert::That(car.Position(), Is().EqualTo(initialPosition + Point{0, 100}));
     }
 
     Spec(should_accelerate_over_time)

@@ -9,16 +9,16 @@ int main(int argc, char **argv)
     Game game;
     World world;
     Car player1;
-    player1.Position(Point(20, 20));
+    player1.Position({80, 80});
     world.Cars().push_back(std::move(player1));
-    world.Walls().push_back(std::move(Wall(Point(160,120), Point(480,120))));
-    world.Walls().push_back(std::move(Wall(Point(480,120), Point(480,360))));
-    world.Walls().push_back(std::move(Wall(Point(160,120), Point(160,360))));
-    world.Walls().push_back(std::move(Wall(Point(160,360), Point(480,360))));
-    world.Walls().push_back(std::move(Wall(Point(0,0), Point(0,480))));
-    world.Walls().push_back(std::move(Wall(Point(0,480), Point(640,480))));
-    world.Walls().push_back(std::move(Wall(Point(640,480), Point(640,0))));
-    world.Walls().push_back(std::move(Wall(Point(640,0), Point(0,0))));
+    world.Walls().push_back(std::move(Wall({200,200}, {800,200})));
+    world.Walls().push_back(std::move(Wall({200,200}, {200,600})));
+    world.Walls().push_back(std::move(Wall({200,600}, {800,600})));
+    world.Walls().push_back(std::move(Wall({400,400}, {1000,400})));
+    world.Walls().push_back(std::move(Wall({0,0},     {0,800})));
+    world.Walls().push_back(std::move(Wall({0,800},   {1000,800})));
+    world.Walls().push_back(std::move(Wall({1000,800},{1000,0})));
+    world.Walls().push_back(std::move(Wall({1000,0},  {0,0})));
     
     while (game.Running()) {
         game.UpdateFrame(world);

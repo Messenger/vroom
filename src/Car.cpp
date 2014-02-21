@@ -8,29 +8,18 @@
 #include "Vector.h"
 #include "Time.h"
 
-static const AngularVelocity TurningSpeed(0.2);
+static const AngularVelocity TurningSpeed(0.25);
 static const LinearAcceleration DecelerationRate(0.001);
 
 struct Car::Impl {
-    Impl()
-        : Direction(90)
-        , Position(320,240)
-        , Speed(0)
-        , MaxSpeed(0.5)
-        , Acceleration(0.001)
-        , UpdateDirection([] (const Time&) {})
-        , UpdatePosition([] (const Time&) {})
-    {
-    }
-    
-    Angle Direction;
-    Point Position;
-    LinearVelocity Speed;
-    LinearVelocity MaxSpeed;
-    LinearAcceleration Acceleration;
+    Angle Direction {90};
+    Point Position {20, 20};
+    LinearVelocity Speed {0};
+    LinearVelocity MaxSpeed {0.5};
+    LinearAcceleration Acceleration {0.001};
 
-    std::function<void(const Time&)> UpdateDirection;
-    std::function<void(const Time&)> UpdatePosition;
+    std::function<void(const Time&)> UpdateDirection {[] (const Time&) {}};
+    std::function<void(const Time&)> UpdatePosition {[] (const Time&) {}};
 };
 
 Car::Car()
