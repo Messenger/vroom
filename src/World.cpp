@@ -3,15 +3,13 @@
 #include "Car.h"
 #include "Wall.h"
 #include "Point.h"
+#include "ViewPort.h"
 
 struct World::Impl
 {
     std::list<Car> Cars;
     std::list<Wall> Walls;
-    Distance Height {480};
-    Distance Width {640};
-    Point ViewOffset {0,0};
-    Distance MinimumScreenDistance {80};
+    ViewPort View;
 };
 
 World::World()
@@ -25,17 +23,17 @@ World::~World()
 
 Distance World::Height() const
 {
-    return pImpl->Height;
+    return pImpl->View.Height();
 }
 
 Distance World::Width() const
 {
-    return pImpl->Width;
+    return pImpl->View.Width();
 }
 
 Point World::ViewOffset() const
 {
-    return pImpl->ViewOffset;
+    return pImpl->View.Offset();
 }
 
 std::list<Car>& World::Cars() const
@@ -69,25 +67,6 @@ void World::Update(const Time& time)
             car.Collide(initialPosition, finalPosition, time);
         }
         
-        
-        if(finalPosition.Y() > pImpl->ViewOffset.Y() + pImpl->Height - pImpl->MinimumScreenDistance)
-        {
-            pImpl->ViewOffset += Point{0, finalPosition.Y() - (pImpl->ViewOffset.Y() + pImpl->Height - pImpl->MinimumScreenDistance)};
-        }
-        
-        if(finalPosition.Y() < pImpl->ViewOffset.Y() + pImpl->MinimumScreenDistance)
-        {
-            pImpl->ViewOffset += Point{0, finalPosition.Y() - (pImpl->ViewOffset.Y() + pImpl->MinimumScreenDistance)};
-        }
-        
-        if(finalPosition.X() > pImpl->ViewOffset.X() + pImpl->Width - pImpl->MinimumScreenDistance)
-        {
-            pImpl->ViewOffset += Point{finalPosition.X() - (pImpl->ViewOffset.X() + pImpl->Width - pImpl->MinimumScreenDistance), 0};
-        }
-
-        if(finalPosition.X() < pImpl->ViewOffset.X() + pImpl->MinimumScreenDistance)
-        {
-            pImpl->ViewOffset += Point{finalPosition.X() - (pImpl->ViewOffset.X() + pImpl->MinimumScreenDistance), 0};
-        }
+        pImpl->View.Update(car);
    }
 }
