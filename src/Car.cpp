@@ -110,9 +110,14 @@ void Car::StartAccelerating()
 void Car::StopAccelerating()
 {
     pImpl->UpdatePosition = [&] (const Time& time) { 
-        pImpl->Position += Vector(time * pImpl->Speed, pImpl->Direction); 
-        pImpl->Speed -= time * DecelerationRate;
-        pImpl->Speed = std::max(pImpl->Speed, LinearVelocity(0));
+        pImpl->Position += Vector(time * pImpl->Speed, pImpl->Direction);
+        if(pImpl->Speed > 0){
+            pImpl->Speed -= time * DecelerationRate;
+            pImpl->Speed = std::max(pImpl->Speed, LinearVelocity(0));
+        } else {
+            pImpl->Speed += time * DecelerationRate;
+            pImpl->Speed = std::min(pImpl->Speed, LinearVelocity(0));
+        }
     };
 }
 
