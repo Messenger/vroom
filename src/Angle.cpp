@@ -1,9 +1,10 @@
 #include "Angle.h"
-#define _USE_MATH_DEFINES
 #include <cmath>
 #include "Ratio.h"
 #include "Time.h"
 #include "AngularVelocity.h"
+
+static constexpr double pi() { return std::atan(1)*4; }
 
 Angle::Angle(double value)
     : value(value)
@@ -12,7 +13,7 @@ Angle::Angle(double value)
 
 Angle Angle::Radians(double value)
 {
-    return Angle(value * 180.0 / M_PI);
+    return Angle(value * 180.0 / pi());
 }
 
 double Angle::Value() const
@@ -22,12 +23,12 @@ double Angle::Value() const
 
 Ratio Angle::Sin() const
 {
-    return Ratio(std::sin(M_PI * value / 180.0));
+    return Ratio(std::sin(pi() * value / 180.0));
 }
 
 Ratio Angle::Cos() const
 {
-    return Ratio(std::cos(M_PI * value / 180.0));
+    return Ratio(std::cos(pi() * value / 180.0));
 }
 
 Angle& Angle::operator+=(const Angle& rhs)

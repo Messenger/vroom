@@ -4,8 +4,8 @@ CC := clang++
 SRC_DIR := src
 TEST_DIR := test
 BUILD_DIR := build
-CFLAGS := -g -Wall -std=c++11 -I$(SRC_DIR)
-LIBS := -lSDL2 -lSDL2_image -lGL
+CFLAGS := -g -Wall -Werror -std=c++11 -I$(SRC_DIR)
+LIBS := -lSDL2 -lSDL2_image -lSDL2_mixer -lGL
 TARGET := vroom
 
 SRC_EXT := cpp

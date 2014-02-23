@@ -2,6 +2,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_opengl.h>
+#include <SDL2/SDL_mixer.h>
 #include "World.h"
 #include "Time.h"
 #include "Car.h"
@@ -20,6 +21,7 @@ struct Game::Impl
     Input Input;
     Time LastFrame;
     bool Running;
+    Mix_Music* Music;
     
     Impl()
     : LastFrame(0)
@@ -91,6 +93,10 @@ struct Game::Impl
 Game::Game()
     : pImpl(new Impl())
 {
+    Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096);
+    pImpl->Music = Mix_LoadMUS("content/background.ogg");
+    Mix_PlayMusic(pImpl->Music, -1);
+    
     SDL_Init(SDL_INIT_VIDEO);
     pImpl->Window = SDL_CreateWindow("Vroooooooooooooom!",
                                    0, 0, 640, 480,
