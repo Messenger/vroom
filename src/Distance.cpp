@@ -50,6 +50,11 @@ Distance operator*(const Distance& lhs, const Distance& rhs)
     return Distance(lhs.Value() * rhs.Value());
 }
 
+Distance operator/(const Distance& lhs, const Distance& rhs)
+{
+    return lhs.Value() / rhs.Value();
+}
+
 Distance operator*(const Ratio& ratio, const Distance& distance)
 {
     return Distance(ratio.Value() * distance.Value());
@@ -85,9 +90,19 @@ bool operator<(const Distance& lhs, const Distance& rhs)
     return lhs.Value() < rhs.Value();
 }
 
+bool operator<=(const Distance& lhs, const Distance& rhs)
+{
+    return lhs < rhs || lhs == rhs;
+}
+
 bool operator>(const Distance& lhs, const Distance& rhs)
 {
     return lhs.Value() > rhs.Value();
+}
+
+bool operator>=(const Distance& lhs, const Distance& rhs)
+{
+    return lhs > rhs || lhs == rhs;
 }
 
 std::ostream& operator<<(std::ostream& out, const Distance& distance)
