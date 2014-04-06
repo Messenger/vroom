@@ -3,6 +3,8 @@
 #include "Point.h"
 #include "Distance.h"
 #include "Angle.h"
+#include "Vector.h"
+#include "Polygon.h"
 
 struct Wall::Impl
 {
@@ -33,6 +35,17 @@ Wall::Wall(Wall&& wall)
 Point Wall::Start() const
 {
     return pImpl->Start;
+}
+
+Polygon Wall::Hitbox() const
+{
+    auto direction = Direction();
+    return Polygon({
+        pImpl->Start + Vector{ 5, direction + 90},
+        pImpl->End + Vector{ 5, direction + 90},
+        pImpl->End + Vector{ 5, direction + 270},
+        pImpl->Start + Vector{ 5, direction + 270},
+    });
 }
 
 Angle Wall::Direction() const

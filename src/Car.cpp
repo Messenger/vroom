@@ -7,6 +7,7 @@
 #include "Point.h"
 #include "Vector.h"
 #include "Time.h"
+#include "Polygon.h"
 
 static const AngularVelocity TurningSpeed(0.25);
 static const LinearAcceleration DecelerationRate(0.001);
@@ -47,6 +48,16 @@ void Car::Direction(const Angle& direction)
     pImpl->Direction = direction;
 }
 
+Polygon Car::Hitbox() const
+{
+    return Polygon({
+        pImpl->Position + Vector{ 20, pImpl->Direction} + Vector{ 20, pImpl->Direction + 90},
+        pImpl->Position + Vector{ 20, pImpl->Direction + 90} + Vector{ 20, pImpl->Direction + 180},
+        pImpl->Position + Vector{ 20, pImpl->Direction + 180} + Vector{ 20, pImpl->Direction + 270},
+        pImpl->Position + Vector{ 20, pImpl->Direction + 270} + Vector{ 20, pImpl->Direction},
+    });
+}
+
 Point Car::Position() const
 {
     return pImpl->Position;
@@ -75,6 +86,7 @@ LinearVelocity Car::MaxSpeed() const
 void Car::MaxSpeed(const LinearVelocity& speed)
 {
     pImpl->MaxSpeed = speed;
+    pImpl->Speed = std::min(pImpl->Speed, speed);
 }
 
 void Car::Update(const Time& time)

@@ -7,6 +7,7 @@ class Angle;
 class Time;
 class Point;
 class LinearVelocity;
+class Polygon;
 
 class Car 
 {
@@ -20,6 +21,7 @@ public:
     
     Angle Direction() const;
     void Direction(const Angle& angle);
+    Polygon Hitbox() const;
     Point Position() const;
     void Position(const Point& point);
     LinearVelocity Speed() const;

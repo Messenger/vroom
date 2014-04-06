@@ -49,6 +49,11 @@ bool operator!=(const Point& lhs, const Point& rhs)
     return lhs.X() != rhs.X() || lhs.Y() != rhs.Y();
 }
 
+Point operator+(const Point& lhs, const Vector& rhs)
+{
+    return {lhs.X() + rhs.X_Component(), lhs.Y() + rhs.Y_Component()};
+}
+
 Point operator+(const Point& lhs, const Point& rhs)
 {
     return {lhs.X() + rhs.X(), lhs.Y() + rhs.Y()};

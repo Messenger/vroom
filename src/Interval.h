@@ -12,6 +12,8 @@ public:
     Interval(const Distance& min, const Distance& max);
     
     bool Overlaps(const Interval& value) const;
+    Distance DistanceTo(const Interval& value) const;
+    Interval& operator+=(const Distance& value);
 };
 
 #endif

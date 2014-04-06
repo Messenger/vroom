@@ -15,11 +15,17 @@ public:
     Vector(const Distance& magnitude, const Angle& direction);
     Vector(const Point& point);
     
+    Angle Direction() const;
+    Distance Magnitude() const;
     Distance X_Component() const;
     Distance Y_Component() const;
     Vector Normal() const;
     Vector Normalize() const;
     Distance DotProduct(const Point& point) const;
+
+    Vector& operator-();
 };
+
+Vector operator*(const Vector& vector, const Distance& distance);
 
 #endif

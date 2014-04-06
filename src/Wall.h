@@ -6,6 +6,7 @@
 class Point;
 class Distance;
 class Angle;
+class Polygon;
 
 class Wall
 {
@@ -18,6 +19,7 @@ public:
     Wall(Wall&& wall);
     
     Point Start() const;
+    Polygon Hitbox() const;
     Angle Direction() const;
     Distance Length() const;
     bool Intersects(const Point& start, const Point& end, Point& collision) const;

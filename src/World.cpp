@@ -4,6 +4,9 @@
 #include "Wall.h"
 #include "Point.h"
 #include "ViewPort.h"
+#include "CollisionService.h"
+#include "Vector.h"
+#include "Polygon.h"
 
 struct World::Impl
 {
@@ -51,12 +54,14 @@ void World::Update(const Time& time)
     for(auto& car : pImpl->Cars)
     {
         auto initialPosition = car.Position();
+        auto initialHitbox = car.Hitbox();
         car.Update(time);
         auto finalPosition = car.Position();
+        Vector travel{finalPosition - initialPosition};
         for(const auto& wall:  pImpl->Walls)
         {
-            Point collision(0,0);
-            if(wall.Intersects(initialPosition, finalPosition, collision))
+            Point collision{0,0};
+            if(CollisionService::CheckCollision(initialHitbox, wall.Hitbox(), travel, collision))
             {
                 finalPosition = collision;
             }

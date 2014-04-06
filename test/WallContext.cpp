@@ -35,8 +35,9 @@ Context(wall)
         CreateWall({-50,50}, {50,50});
 
         auto& car = CreateReallyFastCar();
+        car.MaxSpeed(51);
         car.StartAccelerating();
-        world.Update(1000);
+        world.Update(1);
         Assert::That(car.Position().Y(), Is().LessThan(51));
     }
 
@@ -56,8 +57,9 @@ Context(wall)
         CreateWall({-50,50}, {50,50});
 
         auto& car = CreateReallyFastCar();
+        car.MaxSpeed(26);
         car.StartAccelerating();
-        world.Update(1000);
+        world.Update(1);
         Assert::That(car.Position().Y(), Is().LessThan(26));
     }
 

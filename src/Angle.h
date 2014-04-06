@@ -25,6 +25,7 @@ public:
 bool operator<(const Angle& lhs, const Angle& rhs);
 bool operator>(const Angle& lhs, const Angle& rhs);
 bool operator==(const Angle& lhs, const Angle& rhs);
+Angle operator+(const Angle& lhs, const Angle& rhs);
 Angle operator*(const Time& time, const AngularVelocity& speed);
 Angle operator*(const AngularVelocity& speed, const Time& time);
 

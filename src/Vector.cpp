@@ -15,6 +15,16 @@ Vector::Vector(const Point& point)
 {
 }
 
+Angle Vector::Direction() const
+{
+    return direction;
+}
+
+Distance Vector::Magnitude() const
+{
+    return magnitude;
+}
+
 Distance Vector::X_Component() const
 {
     return magnitude * direction.Cos();
@@ -39,3 +49,15 @@ Distance Vector::DotProduct(const Point& point) const
 {
     return X_Component() * point.X() + Y_Component() * point.Y();
 }
+
+Vector& Vector::operator-()
+{
+    magnitude = -magnitude;
+    return *this;
+}
+
+Vector operator*(const Vector& vector, const Distance& distance)
+{
+    return { vector.Magnitude() * distance, vector.Direction() };
+}
+

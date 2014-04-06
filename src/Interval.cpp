@@ -9,7 +9,25 @@ Interval::Interval(const Distance& min, const Distance& max)
 
 bool Interval::Overlaps(const Interval& value) const
 {
-    auto distanceBetweenIntervals = Minimum < value.Minimum ? value.Minimum - Maximum 
-                                                            : Minimum - value.Maximum;
-    return distanceBetweenIntervals <= 0;
+    return DistanceTo(value) <= 0;
+}
+
+Distance Interval::DistanceTo(const Interval& value) const
+{
+    return Minimum < value.Minimum ? value.Minimum - Maximum
+                                   : Minimum - value.Maximum;
+}
+
+
+Interval& Interval::operator+=(const Distance& value)
+{ 
+    if(value < 0)
+    {
+        Minimum += value;
+    } 
+    else 
+    {
+        Maximum += value;
+    }
+    return *this;
 }
