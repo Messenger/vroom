@@ -23,7 +23,7 @@ Context(view)
     Spec(view_should_follow_the_car_vertically)
     {
         auto& car = CreateReallyFastCar();
-        car.Direction(90);
+        car.Direction(Angle::North());
         car.StartAccelerating();
         world.Update(100);
         Assert::That(world.ViewOffset().Y(), Is().GreaterThan(0));
@@ -32,7 +32,7 @@ Context(view)
     Spec(view_should_follow_the_car_horizontally)
     {
         auto& car = CreateReallyFastCar();
-        car.Direction(0);
+        car.Direction(Angle::East());
         car.StartAccelerating();
         world.Update(100);
         Assert::That(world.ViewOffset().X(), Is().GreaterThan(0));
@@ -41,7 +41,7 @@ Context(view)
     Spec(view_should_follow_the_car_negatively_vertical)
     {
         auto& car = CreateReallyFastCar();
-        car.Direction(-90);
+        car.Direction(Angle::South());
         car.StartAccelerating();
         world.Update(100);
         Assert::That(world.ViewOffset().Y(), Is().LessThan(0));
@@ -50,7 +50,7 @@ Context(view)
     Spec(view_should_follow_the_car_negatively_horizontal)
     {
         auto& car = CreateReallyFastCar();
-        car.Direction(180);
+        car.Direction(Angle::West());
         car.StartAccelerating();
         world.Update(100);
         Assert::That(world.ViewOffset().X(), Is().LessThan(0));
@@ -61,7 +61,7 @@ Context(view)
         auto initial = world.ViewOffset();
         auto& car = CreateReallyFastCar();
         car.Position( {200, 200});
-        car.Direction(0);
+        car.Direction(Angle::East());
         car.Speed(1);
         car.MaxSpeed(1);
         car.StartAccelerating();

@@ -17,7 +17,7 @@ Vector::Vector(const Point& point)
 
 Angle Vector::Direction() const
 {
-    return direction;
+    return std::fmod(direction.Value(), 360);
 }
 
 Distance Vector::Magnitude() const
@@ -52,7 +52,7 @@ Distance Vector::DotProduct(const Point& point) const
 
 Vector& Vector::operator-()
 {
-    magnitude = -magnitude;
+    direction = fmod((direction + 180).Value(), 360);
     return *this;
 }
 

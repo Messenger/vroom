@@ -135,18 +135,18 @@ void Car::StopAccelerating()
 
 void Car::Collide(const Point& initial, const Point& collision, const Time& time)
 {
+    if(pImpl->Speed < 0)
+    {
+        return;
+    }
+
     auto collisionToCurrent = Distance(collision, pImpl->Position);
     auto initialToCurrent = Distance(initial, pImpl->Position);
     
     auto remainingTime = time.Value() * collisionToCurrent.Value() / initialToCurrent.Value();
     
     pImpl->Position = collision;
-    //HACK: prevents some issues with point to point collision detection but fails pretty spectacularly 
-    //if you tap into a wall at slow speeds.
-    if(initial != collision)
-    {
-        pImpl->Speed = -pImpl->Speed;
-    }
+    pImpl->Speed = -pImpl->Speed;
     pImpl->UpdatePosition(remainingTime);
 }
 

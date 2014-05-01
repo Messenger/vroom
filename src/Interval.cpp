@@ -31,3 +31,9 @@ Interval& Interval::operator+=(const Distance& value)
     }
     return *this;
 }
+
+Interval operator+(const Interval& interval, const Distance& distance)
+{
+    Interval value(interval);
+    return value += distance;
+}

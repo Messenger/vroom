@@ -16,4 +16,6 @@ public:
     Interval& operator+=(const Distance& value);
 };
 
+Interval operator+(const Interval& lhs, const Distance& rhs);
+
 #endif

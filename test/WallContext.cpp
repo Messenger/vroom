@@ -17,7 +17,7 @@ Context(wall)
         world.Cars().push_back(std::move(Car()));
         auto& car = world.Cars().back();
         car.Position({0,0});
-        car.Direction(90);
+        car.Direction(Angle::North());
         car.MaxSpeed(100);
         car.Speed(100);
         return car;
@@ -35,15 +35,14 @@ Context(wall)
         CreateWall({-50,50}, {50,50});
 
         auto& car = CreateReallyFastCar();
-        car.MaxSpeed(51);
         car.StartAccelerating();
-        world.Update(1);
+        world.Update(1000);
         Assert::That(car.Position().Y(), Is().LessThan(51));
     }
 
     Spec(wall_should_not_prevent_car_from_travelling_through_when_it_does_not_intersect)
     {
-        CreateWall({-100,50}, {-1,50});
+        CreateWall({-100,50}, {-30,50});
 
         auto& car = CreateReallyFastCar();
         car.StartAccelerating();
@@ -57,15 +56,14 @@ Context(wall)
         CreateWall({-50,50}, {50,50});
 
         auto& car = CreateReallyFastCar();
-        car.MaxSpeed(26);
         car.StartAccelerating();
-        world.Update(1);
+        world.Update(1000);
         Assert::That(car.Position().Y(), Is().LessThan(26));
     }
 
     Spec(car_should_not_go_through_a_wall_if_it_lands_on_top_of_it)
     {
-        CreateWall({-50,1}, {50,1});
+        CreateWall({-50,20}, {50,20});
 
         auto& car = CreateReallyFastCar();
         car.MaxSpeed(0.5);
@@ -74,7 +72,22 @@ Context(wall)
         {
             world.Update(13);
         }
-        Assert::That(car.Position().Y(), Is().LessThan(2));
+        Assert::That(car.Position().Y(), Is().LessThan(20));
+    }
+    
+    Spec(car_should_collide_with_wall_at_an_angle)
+    {
+        CreateWall({-50,50}, {1000,50});
+
+        auto& car = CreateReallyFastCar();
+        car.Direction(45);
+        car.StartAccelerating();
+        for(int i = 0; i < 100; ++i)
+        {
+            world.Update(5);
+        }
+        Assert::That(car.Position().Y(), Is().LessThan(50));
+        Assert::That(car.Position().Y(), Is().GreaterThan(0));
     }
     
     World world;

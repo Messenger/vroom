@@ -1,4 +1,4 @@
-#include <limits>
+#include <cmath>
 #include "CollisionService.h"
 #include "Polygon.h"
 #include "Vector.h"
@@ -20,10 +20,8 @@ bool CollisionService::CheckCollision(const Polygon& first, const Polygon& secon
 {
     auto edges = first.Edges();
     edges.splice(edges.end(), second.Edges());
-    
-    Vector translationAxis{0,0};
-    Distance minOverlap{std::numeric_limits<double>::infinity()};
-    
+        
+    Distance travelRatio = 0.0;
     for(const auto& edge : edges)
     {
         auto axis = edge.Normal().Normalize();
@@ -31,29 +29,31 @@ bool CollisionService::CheckCollision(const Polygon& first, const Polygon& secon
         auto secondProjection = second.Project(axis);
 
         auto overlapping = firstProjection.Overlaps(secondProjection);
-        firstProjection += axis.DotProduct({travel.X_Component(), travel.Y_Component()});
-        auto willOverlap = firstProjection.Overlaps(secondProjection);
+        auto travelingProjection = firstProjection + axis.DotProduct({travel.X_Component(), travel.Y_Component()});
+        auto willOverlap = travelingProjection.Overlaps(secondProjection);
         if(!overlapping && !willOverlap) {
             return false;
         }
-        
-        auto amountOfOverlap = -firstProjection.DistanceTo(secondProjection);
-        if(amountOfOverlap < minOverlap)
-        {
-            minOverlap = amountOfOverlap;
-            translationAxis = axis;
-            Vector distance{first.Center() - second.Center()};
-            auto value = distance.DotProduct({translationAxis.X_Component(), translationAxis.Y_Component()});
-            if(value > 0)
-            {
-                translationAxis = -translationAxis;
+
+        if(overlapping) {
+            auto overlap = firstProjection.DistanceTo(secondProjection);
+            auto travelDistance = axis.DotProduct({travel.X_Component(), travel.Y_Component()});
+            auto ratioToHit = overlap/travelDistance;
+            if(std::abs(ratioToHit.Value()) < std::abs(travelRatio.Value())) {
+                travelRatio = ratioToHit;
             }
-        }
+        } else {
+            auto distance = firstProjection.DistanceTo(secondProjection);
+            auto travelDistance = axis.DotProduct({travel.X_Component(), travel.Y_Component()});
+            auto ratioToHit = distance/travelDistance;
+            if(travelRatio < ratioToHit) {
+                travelRatio = ratioToHit;
+            }
+        } 
     }
     
     collision = first.Center();
-    collision += travel;
-    collision += translationAxis * minOverlap ;
+    collision += travel * travelRatio;
     
     return true;
 }

@@ -48,7 +48,7 @@ Context(collision)
     {
         auto first = Polygon::Rectangle({0,50},10,10);
         auto second = Polygon::Rectangle({50,50},10,10);
-        Vector lineOfTravel{100, 0};
+        Vector lineOfTravel{100, Angle::East()};
         
         auto result = CollisionService::CheckCollision(first, second, lineOfTravel);
         Assert::That(result, Is().True());
@@ -58,7 +58,7 @@ Context(collision)
     {
         auto first = Polygon::Rectangle({0,50},10,10);
         auto second = Polygon::Rectangle({50,50},10,10);
-        Vector lineOfTravel{10, 0};
+        Vector lineOfTravel{10, Angle::East()};
         
         auto result = CollisionService::CheckCollision(first, second, lineOfTravel);
         Assert::That(result, Is().False());
@@ -78,7 +78,7 @@ Context(collision)
     {
         auto first = Polygon::Rectangle({0,0},10,10);
         auto second = Polygon::Rectangle({50,0},10,10);
-        Vector lineOfTravel{41, 0};
+        Vector lineOfTravel{41, Angle::East()};
         
         Point collision{0,0};
         CollisionService::CheckCollision(first, second, lineOfTravel, collision);

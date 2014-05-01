@@ -43,6 +43,11 @@ Angle& Angle::operator-=(const Angle& rhs)
     return *this;
 }
 
+Angle Angle::East() { return 0; }
+Angle Angle::North() { return 90; }
+Angle Angle::West() { return 180; }
+Angle Angle::South() { return 270; }
+
 bool operator<(const Angle& lhs, const Angle& rhs)
 {
     return lhs.Value() < rhs.Value();
@@ -61,6 +66,11 @@ bool operator==(const Angle& lhs, const Angle& rhs)
 Angle operator+(const Angle& lhs, const Angle& rhs)
 {
     return lhs.Value() + rhs.Value();
+}
+
+Angle operator-(const Angle& lhs, const Angle& rhs)
+{
+    return lhs.Value() - rhs.Value();
 }
 
 Angle operator*(const Time& time, const AngularVelocity& speed)
