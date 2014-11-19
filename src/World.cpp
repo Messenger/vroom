@@ -7,6 +7,7 @@
 #include "CollisionService.h"
 #include "Vector.h"
 #include "Polygon.h"
+#include "Time.h"
 
 struct World::Impl
 {
@@ -57,6 +58,7 @@ void World::Update(const Time& time)
         auto initialHitbox = car.Hitbox();
         car.Update(time);
         auto finalPosition = car.Position();
+        auto collided = false;
         Vector travel{finalPosition - initialPosition};
         for(const auto& wall:  pImpl->Walls)
         {
@@ -64,6 +66,7 @@ void World::Update(const Time& time)
             if(CollisionService::CheckCollision(initialHitbox, wall.Hitbox(), travel, collision))
             {
                 finalPosition = collision;
+                collided = true;
             }
         }
 
@@ -71,6 +74,11 @@ void World::Update(const Time& time)
         {
             car.Collide(initialPosition, finalPosition, time);
         }
+        else if(collided)
+        {
+            car.Update(-std::max(time.Value(), 30));
+        }
+        
         
         pImpl->View.Update(car);
    }

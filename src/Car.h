@@ -38,7 +38,7 @@ public:
     void StartAccelerating();
     void StopAccelerating();
     
-    void Collide(const Point& initial, const Point& collision, const Time& time);
+    double Collide(const Point& initial, const Point& collision, const Time& time);
 };
 
 #endif

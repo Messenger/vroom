@@ -51,10 +51,10 @@ void Car::Direction(const Angle& direction)
 Polygon Car::Hitbox() const
 {
     return Polygon({
-        pImpl->Position + Vector{ 20, pImpl->Direction} + Vector{ 20, pImpl->Direction + 90},
-        pImpl->Position + Vector{ 20, pImpl->Direction + 90} + Vector{ 20, pImpl->Direction + 180},
-        pImpl->Position + Vector{ 20, pImpl->Direction + 180} + Vector{ 20, pImpl->Direction + 270},
-        pImpl->Position + Vector{ 20, pImpl->Direction + 270} + Vector{ 20, pImpl->Direction},
+        pImpl->Position + Vector{ 20, pImpl->Direction} + Vector{ 10, pImpl->Direction + 90},
+        pImpl->Position + Vector{ 10, pImpl->Direction + 90} + Vector{ 20, pImpl->Direction + 180},
+        pImpl->Position + Vector{ 20, pImpl->Direction + 180} + Vector{ 10, pImpl->Direction + 270},
+        pImpl->Position + Vector{ 10, pImpl->Direction + 270} + Vector{ 20, pImpl->Direction},
     });
 }
 
@@ -92,7 +92,10 @@ void Car::MaxSpeed(const LinearVelocity& speed)
 void Car::Update(const Time& time)
 {
     pImpl->UpdateDirection(time);
-    pImpl->UpdatePosition(time);
+    if(time.Value() > 0)
+    {
+        pImpl->UpdatePosition(time);
+    }
 }
 
 void Car::StartTurningLeft()
@@ -133,20 +136,17 @@ void Car::StopAccelerating()
     };
 }
 
-void Car::Collide(const Point& initial, const Point& collision, const Time& time)
+double Car::Collide(const Point& initial, const Point& collision, const Time& time)
 {
-    if(pImpl->Speed < 0)
-    {
-        return;
-    }
-
     auto collisionToCurrent = Distance(collision, pImpl->Position);
     auto initialToCurrent = Distance(initial, pImpl->Position);
     
     auto remainingTime = time.Value() * collisionToCurrent.Value() / initialToCurrent.Value();
-    
+    auto boundedTime = std::max(remainingTime, 30.);
     pImpl->Position = collision;
     pImpl->Speed = -pImpl->Speed;
-    pImpl->UpdatePosition(remainingTime);
+    pImpl->UpdateDirection(-boundedTime);
+    pImpl->UpdatePosition(boundedTime);
+    return remainingTime;
 }
 
