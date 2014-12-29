@@ -1,7 +1,6 @@
 #include "ViewPort.h"
 #include "Distance.h"
 #include "Point.h"
-#include "Car.h"
 
 struct ViewPort::Impl
 {
@@ -37,10 +36,10 @@ Point ViewPort::Offset() const
     return pImpl->Offset;
 }
 
-void ViewPort::Update(const Car& car)
+void ViewPort::Update(const Point& point)
 {
-    auto carX = car.Position().X();
-    auto carY = car.Position().Y();
+    auto carX = point.X();
+    auto carY = point.Y();
     auto offsetX = pImpl->Offset.X();
     auto offsetY = pImpl->Offset.Y();
     

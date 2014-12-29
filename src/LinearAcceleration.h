@@ -8,8 +8,9 @@ class LinearAcceleration
 public:
     LinearAcceleration(double value);
     
-    double Value() const;
-    
+    double Value() const;    
 };
+
+bool operator<(const LinearAcceleration& lhs, const LinearAcceleration& rhs);
 
 #endif

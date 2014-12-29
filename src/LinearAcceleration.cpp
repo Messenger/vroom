@@ -10,3 +10,8 @@ double LinearAcceleration::Value() const
 {
     return value;
 }
+
+bool operator<(const LinearAcceleration& lhs, const LinearAcceleration& rhs)
+{
+    return lhs.Value() < rhs.Value();
+}

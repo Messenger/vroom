@@ -9,6 +9,8 @@ public:
     AngularVelocity(double value);
     
     double Value() const;
+
+    AngularVelocity operator-() const;
 };
 
 #endif

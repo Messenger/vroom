@@ -9,3 +9,8 @@ double AngularVelocity::Value() const
 {
     return value;
 }
+
+AngularVelocity AngularVelocity::operator-() const
+{
+    return -value;
+}

@@ -26,10 +26,9 @@ LinearVelocity& LinearVelocity::operator-=(const LinearVelocity& rhs)
     return *this;
 }
 
-LinearVelocity& LinearVelocity::operator-()
+LinearVelocity LinearVelocity::operator-() const
 {
-    value = -value;
-    return *this;
+    return -value;
 }
 
 bool operator<(const LinearVelocity& lhs, const LinearVelocity& rhs)

@@ -80,6 +80,6 @@ void World::Update(const Time& time)
         }
         
         
-        pImpl->View.Update(car);
+        pImpl->View.Update(car.Position());
    }
 }

@@ -3,7 +3,6 @@
 
 #include <memory>
 
-class Car;
 class Point;
 class Distance;
 
@@ -18,7 +17,7 @@ public:
     Point Offset() const;
     Distance Height() const;
     Distance Width() const;
-    void Update(const Car& car);
+    void Update(const Point& position);
 };
 
 #endif

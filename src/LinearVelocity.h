@@ -17,7 +17,7 @@ public:
     
     LinearVelocity& operator+=(const LinearVelocity& rhs);
     LinearVelocity& operator-=(const LinearVelocity& rhs);
-    LinearVelocity& operator-();
+    LinearVelocity operator-() const;
 };
 
 bool operator<(const LinearVelocity& lhs, const LinearVelocity& rhs);
