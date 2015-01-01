@@ -3,6 +3,7 @@
 #include <cmath>
 #include "Time.h"
 #include "LinearAcceleration.h"
+#include "Distance.h"
 
 LinearVelocity::LinearVelocity(double value)
     : value(value)
@@ -26,6 +27,12 @@ LinearVelocity& LinearVelocity::operator-=(const LinearVelocity& rhs)
     return *this;
 }
 
+LinearVelocity& LinearVelocity::operator*=(const Distance& rhs)
+{
+    value *= rhs.Value();
+    return *this;
+}
+
 LinearVelocity LinearVelocity::operator-() const
 {
     return -value;
@@ -44,6 +51,11 @@ bool operator>(const LinearVelocity& lhs, const LinearVelocity& rhs)
 bool operator==(const LinearVelocity& lhs, const LinearVelocity& rhs)
 {
     return std::abs(lhs.Value() - rhs.Value()) < 0.0001;
+}
+
+bool operator!=(const LinearVelocity& lhs, const LinearVelocity& rhs)
+{
+    return std::abs(lhs.Value() - rhs.Value()) > 0.0001;
 }
 
 std::ostream& operator<<(std::ostream& out, const LinearVelocity& speed)

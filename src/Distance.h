@@ -19,7 +19,7 @@ public:
     double Value() const;
     
     Distance& operator+=(const Distance& distance);
-    Distance& operator-();
+    Distance operator-() const;
 };
 
 Distance operator+(const Distance& lhs, const Distance& rhs);

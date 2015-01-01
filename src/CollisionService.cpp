@@ -5,23 +5,17 @@
 #include "Interval.h"
 #include "Point.h"
 
-bool CollisionService::CheckOverlap(const Polygon& first, const Polygon& second)
+Distance CollisionService::CheckOverlap(const Polygon& first, const Polygon& second)
 {
     return CheckCollision(first, second, {0,0});
 }
 
-bool CollisionService::CheckCollision(const Polygon& first, const Polygon& second, const Vector& travel)
-{
-    Point zero{0,0};
-    return CheckCollision(first, second, travel, zero);
-}
-
-bool CollisionService::CheckCollision(const Polygon& first, const Polygon& second, const Vector& travel, Point& collision)
+Distance CollisionService::CheckCollision(const Polygon& first, const Polygon& second, const Vector& travel)
 {
     auto edges = first.Edges();
     edges.splice(edges.end(), second.Edges());
         
-    Distance travelRatio = 0.0;
+    Distance travelRatio {0.0};
     for(const auto& edge : edges)
     {
         auto axis = edge.Normal().Normalize();
@@ -32,7 +26,7 @@ bool CollisionService::CheckCollision(const Polygon& first, const Polygon& secon
         auto travelingProjection = firstProjection + axis.DotProduct({travel.X_Component(), travel.Y_Component()});
         auto willOverlap = travelingProjection.Overlaps(secondProjection);
         if(!overlapping && !willOverlap) {
-            return false;
+            return 1.0;
         }
 
         if(overlapping) {
@@ -52,8 +46,5 @@ bool CollisionService::CheckCollision(const Polygon& first, const Polygon& secon
         } 
     }
     
-    collision = first.Center();
-    collision += travel * travelRatio;
-    
-    return true;
+    return travelRatio;
 }

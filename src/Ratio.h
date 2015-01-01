@@ -1,8 +1,6 @@
 #ifndef RATIO_H_
 #define RATIO_H_
 
-class Distance;
-
 class Ratio
 {
     double value;

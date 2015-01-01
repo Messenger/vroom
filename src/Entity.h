@@ -31,6 +31,13 @@ public:
             return std::shared_ptr<T>();
         }
     }
+    
+    template <typename T>
+    bool Has()
+    {
+        std::type_index index(typeid(T));
+        return components.count(index) != 0;
+    }
 };
 
 #endif

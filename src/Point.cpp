@@ -32,11 +32,9 @@ Point& Point::operator+=(const Point& point)
     return *this;
 }
 
-Point& Point::operator-()
+Point Point::operator-() const
 {
-    x = -x;
-    y = -y;
-    return *this;
+    return { -x, -y};
 }
 
 bool operator==(const Point& lhs, const Point& rhs)

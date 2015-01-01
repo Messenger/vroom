@@ -10,6 +10,7 @@
 #include "Components/Direction.h"
 #include "Components/Size.h"
 #include "Components/Sprite.h"
+#include <Components/Velocity.h>
 
 struct Render::Impl
 {
@@ -79,8 +80,11 @@ void Render::Update(const Time& time)
 {
     for(auto& entity : Entities())
     {
-        auto& position = entity.Get<Position>()->Value;
-        pImpl->View.Update(position);
+        if(entity.Has<Velocity>())
+        {
+            auto& position = entity.Get<Position>()->Value;
+            pImpl->View.Update(position);
+        }
     }
     
     glMatrixMode(GL_PROJECTION);
@@ -114,7 +118,7 @@ void Render::Update(const Time& time)
         
         glLoadIdentity();
         glTranslatef(position.X().Value(), position.Y().Value(), 0);
-        glRotatef(direction.Value() + 90, 0, 0, 1);
+        glRotatef(direction.Value() + sprite->Direction.Value(), 0, 0, 1);
         glTranslatef(-size->Width.Value() / 2., -size->Height.Value() / 2., 0);
         glBegin(GL_QUADS);
             glTexCoord2d(sUpperLeft); glVertex2d(eUpperLeft);

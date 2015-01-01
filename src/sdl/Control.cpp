@@ -6,6 +6,7 @@
 #include "Components/Keys.h"
 #include "Components/Stats.h"
 #include "Components/Rotation.h"
+#include "Components/State.h"
 
 Control::Control(const Input& input)
     : input(input)
@@ -32,7 +33,11 @@ void Control::Update(const Time& time)
         
         auto& rotation = entity.Get<Rotation>()->Value;
 
-        if(input.IsHeld(keys->TurnLeft))
+        if(entity.Get<State>()->Collided)
+        {
+            rotation = 0;
+        }
+        else if(input.IsHeld(keys->TurnLeft))
         {
             rotation = stats->TurningRate;
         }

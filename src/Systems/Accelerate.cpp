@@ -12,6 +12,7 @@ void Accelerate::Update(const Time& time)
         auto acceleration = entity.Get<Acceleration>()->Value;
         auto velocityComponent = entity.Get<Velocity>();
         auto& velocity = velocityComponent->Value;
+        
         if(acceleration < 0)
         {
             if(velocity > 0) 

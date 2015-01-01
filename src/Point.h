@@ -18,7 +18,7 @@ public:
 
     Point& operator+=(const Vector& vector);
     Point& operator+=(const Point& point);
-    Point& operator-();
+    Point operator-() const;
 };
 
 bool operator==(const Point& lhs, const Point& rhs);

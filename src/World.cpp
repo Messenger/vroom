@@ -60,12 +60,15 @@ void World::Update(const Time& time)
         auto finalPosition = car.Position();
         auto collided = false;
         Vector travel{finalPosition - initialPosition};
+        Distance travelRatio { 1.0 };
+        
         for(const auto& wall:  pImpl->Walls)
         {
-            Point collision{0,0};
-            if(CollisionService::CheckCollision(initialHitbox, wall.Hitbox(), travel, collision))
+            auto collidedRatio = CollisionService::CheckCollision(initialHitbox, wall.Hitbox(), travel);
+            if(collidedRatio < travelRatio)
             {
-                finalPosition = collision;
+                travelRatio = collidedRatio;
+                finalPosition = initialPosition + travel * travelRatio;
                 collided = true;
             }
         }

@@ -29,10 +29,9 @@ Distance& Distance::operator+=(const Distance& distance)
     return *this;
 }
 
-Distance& Distance::operator-()
+Distance Distance::operator-() const
 {
-    value = -value;
-    return *this;
+    return -value;
 }
 
 Distance operator+(const Distance& lhs, const Distance& rhs)

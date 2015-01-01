@@ -5,6 +5,7 @@
 
 class Time;
 class LinearAcceleration;
+class Distance;
 
 class LinearVelocity
 {
@@ -17,12 +18,14 @@ public:
     
     LinearVelocity& operator+=(const LinearVelocity& rhs);
     LinearVelocity& operator-=(const LinearVelocity& rhs);
+    LinearVelocity& operator*=(const Distance& rhs);
     LinearVelocity operator-() const;
 };
 
 bool operator<(const LinearVelocity& lhs, const LinearVelocity& rhs);
 bool operator>(const LinearVelocity& lhs, const LinearVelocity& rhs);
 bool operator==(const LinearVelocity& lhs, const LinearVelocity& rhs);
+bool operator!=(const LinearVelocity& lhs, const LinearVelocity& rhs);
 std::ostream& operator<<(std::ostream& out, const LinearVelocity& speed);
 
 LinearVelocity operator*(const Time& time, const LinearAcceleration& acceleration);
